@@ -108,7 +108,6 @@ private:
 public:
     LoaderTD0(QJsonObject format, QString FileName);
     virtual uint8_t load(bool check_only, bool ignore_warnings, QString * log) override;
-    //virtual uint8_t check(void) override;
 };
 
 #endif // LOADER_TD0_H

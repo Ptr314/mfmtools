@@ -49,7 +49,6 @@ protected:
 public:
     LoaderRAW(QJsonObject format, QString FileName, bool msb_first);
     virtual uint8_t load(bool check_only, bool ignore_warnings, QString * log) override;
-    //virtual uint8_t check(void) override;
 };
 
 #endif // LOADER_RAW_H

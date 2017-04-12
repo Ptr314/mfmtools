@@ -67,7 +67,6 @@ public:
     ~Loader();
 
     virtual uint8_t load(bool check_only, bool ignore_warnings, QString * log);
-    //virtual uint8_t check(void);
     uint8_t     *get_sector_data(uint8_t head, uint8_t track, uint8_t sector);
 
 };

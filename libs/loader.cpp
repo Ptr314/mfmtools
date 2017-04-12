@@ -54,11 +54,6 @@ uint8_t Loader::load(bool check_only, bool ignore_warnings, QString *log)
     return FDD_LOAD_ERROR;
 }
 
-//uint8_t Loader::check(void)
-//{
-//    return FDD_LOAD_ERROR;
-//}
-
 uint8_t * Loader::get_sector_data(uint8_t head, uint8_t track, uint8_t sector){
     uint32_t offset = ((track * this->fdd_format["heads"].toInt()  + head) * this->fdd_format["sectors"].toInt() + (sector-1)) * this->fdd_format["sector"].toInt();
     return &this->buffer[offset];

@@ -91,7 +91,6 @@ MainWindow::~MainWindow()
     settings->setValue("formats/left_format_combo", ui->leftFormatCombo->currentIndex());
     settings->setValue("folders/right_file_filter", ui->rightFilesFilter->currentIndex());
     settings->setValue("formats/right_format_combo", ui->rightFormatCombo->currentIndex());
-    //settings->setValue("formats/custom", QByteArray((char *)&this->custom_fddf, sizeof(FDD_format)));
     QJsonDocument doc(this->custom_fddf);
     settings->setValue("formats/custom", doc.toJson());
     settings->sync();
@@ -144,11 +143,6 @@ void MainWindow::init_lists(void){
     leftFilesModel = new QFileSystemModel(this);
     leftFilesModel->setReadOnly(true);
     leftFilesModel->setFilter(QDir::Files | QDir::NoDotAndDotDot);
-    //leftFilesModel->setRootPath(leftPath);
-
-//    QStringList filter = QString("*.img;*.mfm").split(";");
-//    leftFilesModel->setNameFilters(filter);
-//    leftFilesModel->setNameFilterDisables(false);
 
     rightFilesModel = new QFileSystemModel(this);
     rightFilesModel->setReadOnly(true);
@@ -162,25 +156,14 @@ void MainWindow::init_lists(void){
     ui->rightFiles->setRootIndex(rightFilesModel->setRootPath(rightPath));
 
     ui->leftFiles->header()->hideSection(2);
-    //ui->leftFiles->resizeColumnToContents(1);
 
     ui->rightFiles->header()->hideSection(2);
-    //ui->rightDirs->resizeColumnToContents(0);
 
 }
 
 void MainWindow::init_dropdowns(void)
 {
     ui->leftFilesFilter->clear();
-    /*
-    for(unsigned int i=0; i < sizeof(file_types)/sizeof(file_types[0]); i++) {
-        file_type ft = file_types[i];
-        ui->leftFilesFilter->addItem(
-                                QString("%1 (%2)").arg(QString((char*)ft.type_name)).arg(QString((char*)ft.type_extensions).replace(";", "; ")),
-                                QString((char*)ft.type_extensions)
-        );
-    }
-    */
     foreach (const QJsonValue & value, file_formats) {
         QJsonObject obj = value.toObject();
         ui->leftFilesFilter->addItem(
@@ -191,21 +174,11 @@ void MainWindow::init_dropdowns(void)
     ui->leftFilesFilter->setCurrentIndex(settings->value("folders/left_file_filter", 1).toInt());
     on_leftFilesFilter_activated(ui->leftFilesFilter->currentIndex());
 
-    //QByteArray tmp;
-    //tmp = settings->value("formats/custom", QByteArray(sizeof(FDD_format), char(0))).toByteArray();
-    //this->custom_fddf = *(FDD_format *)tmp.data();
-    //memcpy(&(this->custom_fddf), tmp.data(), sizeof(FDD_format));
-
     QJsonDocument doc = QJsonDocument::fromJson(settings->value("formats/custom").toByteArray());
     this->custom_fddf = doc.object();
 
-    //this->custom_fddf
     ui->leftFormatCombo->clear();
 
-    //for(unsigned int i=0; i < sizeof(fdd_formats)/sizeof(fdd_formats[0]); i++) {
-    //    FDD_format ff = fdd_formats[i];
-    //    ui->leftFormatCombo->addItem(QString((char*)ff.name));
-    //}
     foreach (const QJsonValue & value, fdd_formats) {
         QJsonObject obj = value.toObject();
         ui->leftFormatCombo->addItem(obj["name"].toString());
@@ -214,15 +187,6 @@ void MainWindow::init_dropdowns(void)
     ui->leftFormatCombo->setCurrentIndex(settings->value("formats/left_format_combo", 0).toInt());
 
     ui->rightFilesFilter->clear();
-    /*
-    for(unsigned int i=0; i < sizeof(types_to_convert)/sizeof(types_to_convert[0]); i++) {
-        file_type ft = types_to_convert[i];
-        ui->rightFilesFilter->addItem(
-                                QString("%1 (%2)").arg(QString((char*)ft.type_name)).arg(QString((char*)ft.type_extensions).replace(";", "; ")),
-                                QString((char*)ft.type_extensions)
-        );
-    }
-    */
     foreach (const QJsonValue & value, target_formats) {
         QJsonObject obj = value.toObject();
         ui->rightFilesFilter->addItem(
@@ -234,12 +198,6 @@ void MainWindow::init_dropdowns(void)
     on_rightFilesFilter_activated(ui->rightFilesFilter->currentIndex());
 
     ui->rightFormatCombo->clear();
-    /*
-    for(unsigned int i=0; i < sizeof(fdd_track_descriptions)/sizeof(fdd_track_descriptions[0]); i++) {
-        FDD_track_description ftd = fdd_track_descriptions[i];
-        ui->rightFormatCombo->addItem(QString((char*)ftd.name));
-    }
-    */
     foreach (const QJsonValue & value, fdd_track_descriptions) {
         QJsonObject obj = value.toObject();
         ui->rightFormatCombo->addItem(obj["name"].toString());
@@ -322,7 +280,6 @@ void MainWindow::loadLanguage(const QString& rLanguage)
   switchTranslator(m_translator, QString("%1/app_%2.qm").arg(m_langPath).arg(rLanguage));
   //switchTranslator(m_translatorQt, QString("%1/qtbase_%2.qm").arg(QLibraryInfo::location(QLibraryInfo::TranslationsPath)).arg(rLanguage));
   switchTranslator(m_translatorQt, QString("%1/qtbase_%2.qm").arg(m_langPath).arg(rLanguage));
-  //ui.statusBar->showMessage(tr("Current Language changed to %1").arg(languageName));
  }
 }
 
@@ -641,8 +598,6 @@ void MainWindow::load_config(void)
 QJsonArray MainWindow::ConvertJsonHex(QJsonArray jsonArray)
 {
     QJsonArray new_array;
-    //QJsonArray::iterator it;
-    //for (it = jsonArray->begin(); it != jsonArray->end(); it++) {
     for (int i=0; i < jsonArray.size(); i++) {
         QJsonObject obj = jsonArray[i].toObject();
         QStringList keys = obj.keys();

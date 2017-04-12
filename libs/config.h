@@ -37,12 +37,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-//#include <QJsonDocument>
-//#include <QJsonObject>
 #include <QJsonArray>
 
-//static QJsonDocument jsonDoc;
-//static QJsonObject jsonRoot;
 static QJsonArray file_formats;
 static QJsonArray target_formats;
 static QJsonArray fdd_formats;

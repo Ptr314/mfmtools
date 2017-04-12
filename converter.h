@@ -50,31 +50,6 @@
 #define FDD_CONV_CHECK          0
 #define FDD_CONV_CONVERT        1
 
-/*
-static file_type types_to_convert[]
-{
-    {
-        0,
-        "All files",
-        "*.*",
-    },
-    {
-        FILE_MFM,
-        "MFM files",
-        "*.mfm",
-    },
-    {
-        FILE_RAW_MSB,
-        "RAW image",
-        "*.img;*.ima;*.dsk;*.trd;*.odi",
-    },
-    {
-        FILE_TD0,
-        "Teledisk",
-        "*.td0",
-    },
-};
-*/
 uint8_t file_convert(QJsonObject inp_fddf, QJsonObject inp_ft, QJsonObject out_ft, QJsonArray fdd_track_formats, QJsonArray fdd_track_variants, QString mfm_track_id, QString inFile, QString outDir, uint8_t convert_mode, QString * log);
 
 void encode_MFM_byte(uint8_t data, uint8_t clock, uint8_t * last_byte, uint8_t * buffer);
