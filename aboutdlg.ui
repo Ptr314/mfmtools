@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>About</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -62,7 +62,7 @@
     </font>
    </property>
    <property name="text">
-    <string>MFMTools</string>
+    <string notr="true">MFMTools</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox">
@@ -127,7 +127,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Version 0.1 &lt;br/&gt;© Panther &lt;br/&gt;&lt;a href=&quot;http://emuverse.ru/wiki/User:Panther&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://emuverse.ru/wiki/User:Panther&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Version 0.1 &lt;br/&gt;© Panther &lt;br/&gt;&lt;a href=&quot;http://emuverse.ru/wiki/User:Panther&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://emuverse.ru/wiki/User:Panther&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
