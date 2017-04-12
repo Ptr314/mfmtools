@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>libs/icons/2leftarrow.png</file>
+        <file>libs/icons/2rightarrow.png</file>
+        <file>libs/icons/5floppy_mount.png</file>
+        <file>libs/icons/help.png</file>
+        <file>libs/icons/cache.png</file>
+        <file>libs/icons/messagebox_info.png</file>
+        <file>libs/icons/5floppy_mount_32x32.png</file>
+        <file>libs/icons/Emuverse3.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,344 @@
+{
+	"file_formats": [
+			{
+					"id": 							"FILE_RAW_MSB",
+					"type_name": 				"RAW image (MSB first)",
+					"type_extensions": 	"*.img;*.ima;*.dsk"
+			},
+			{
+					"id": 							"FILE_RAW_MSB",
+					"type_name": 				"Orion-128",
+					"type_extensions": 	"*.odi"
+			},
+			{
+					"id": 							"FILE_RAW_MSB",
+					"type_name": 				"TR-DOS",
+					"type_extensions": 	"*.trd"
+			},
+			{
+					"id": 							"FILE_RAW_LSB",
+					"type_name": 				"DVK MX image (LSB first)",
+					"type_extensions": 	"*.dsk"
+			},
+			{
+					"id": 							"FILE_TD0",
+					"type_name": 				"Teledisk",
+					"type_extensions": 	"*.td0"
+			},
+			{
+					"id": 							"FILE_UNKNOWN",
+					"type_name": 				"All files",
+					"type_extensions": 	"*.*"
+			}
+	],
+	"target_formats": [
+			{
+					"id": 							"FILE_UNKNOWN",
+					"type_name": 				"All files",
+					"type_extensions": 	"*.*"
+			},
+			{
+					"id": 							"FILE_MFM",
+					"type_name": 				"MFM files",
+					"type_extensions": 	"*.mfm"
+			},
+			{
+					"id": 							"FILE_RAW_MSB",
+					"type_name": 				"RAW image (MSB first)",
+					"type_extensions": 	"*.img;*.ima;*.dsk;*.trd;*.odi"
+			}
+	],
+	"fdd_formats": [
+			{
+					"id":								"DISK_CUSTOM",
+					"name":							"Custom",
+					"heads":						0,
+					"tracks":						0,
+					"sectors":					0,
+					"sector":						0,
+					"modulation":				"",
+					"track_fomat":			"",
+					"rpm":							0,
+					"dtr":							0
+			},
+			{
+					"id":								"DISK_PC_DS_DD_720",
+					"name":							"IBM PC DS/DD (720k)",
+					"heads":						2,
+					"tracks":						80,
+					"sectors":					9,
+					"sector":						512,
+					"modulation":				"MODULATION_MFM",
+					"track_fomat":			"TRACK_IBM_MFM",
+					"rpm":							300,
+					"dtr":							250
+			},
+			{
+					"id":								"DISK_PC_DS_DD_800",
+					"name":							"IBM PC DS/DD (800k)",
+					"heads":						2,
+					"tracks":						80,
+					"sectors":					10,
+					"sector":						512,
+					"modulation":				"MODULATION_MFM",
+					"track_fomat":			"TRACK_IBM_MFM",
+					"rpm":							300,
+					"dtr":							250
+			},
+			{
+					"id":								"DISK_MY_DS_DD_800",
+					"name":							"DVK MY DS/DD (800k)",
+					"heads":						2,
+					"tracks":						80,
+					"sectors":					10,
+					"sector":						512,
+					"modulation":				"MODULATION_MFM",
+					"track_fomat":			"TRACK_DVK_MY",
+					"rpm":							300,
+					"dtr":							250
+			},
+			{
+					"id":								"DISK_MX_SS_40",
+					"name":							"DVK MX 1x40 (110k)",
+					"heads":						1,
+					"tracks":						40,
+					"sectors":					11,
+					"sector":						256,
+					"modulation":				"MODULATION_FM",
+					"track_fomat":			"TRACK_DVK_MX_NEW",
+					"rpm":							300,
+					"dtr":							250
+			},
+			{
+					"id":								"DISK_MX_SS_80",
+					"name":							"DVK MX 1x80 (220k)",
+					"heads":						1,
+					"tracks":						80,
+					"sectors":					11,
+					"sector":						256,
+					"modulation":				"MODULATION_FM",
+					"track_fomat":			"TRACK_DVK_MX_NEW",
+					"rpm":							300,
+					"dtr":							250
+			},
+			{
+					"id":								"DISK_MX_DS_40",
+					"name":							"DVK MX 1x40 (220k)",
+					"heads":						2,
+					"tracks":						40,
+					"sectors":					11,
+					"sector":						256,
+					"modulation":				"MODULATION_FM",
+					"track_fomat":			"TRACK_DVK_MX_NEW",
+					"rpm":							300,
+					"dtr":							250
+			},
+			{
+					"id":								"DISK_MX_DS_80",
+					"name":							"DVK MX 1x80 (440k)",
+					"heads":						2,
+					"tracks":						80,
+					"sectors":					11,
+					"sector":						256,
+					"modulation":				"MODULATION_FM",
+					"track_fomat":			"TRACK_DVK_MX_NEW",
+					"rpm":							300,
+					"dtr":							250
+			},
+				{
+					"id":								"DISK_O128",
+					"name":							"Orion-128 (800k)",
+					"heads":						2,
+					"tracks":						80,
+					"sectors":					5,
+					"sector":						1024,
+					"modulation":				"MODULATION_MFM",
+					"track_fomat":			"TRACK_IBM_MFM",
+					"rpm":							300,
+					"dtr":							250
+			}
+	],
+	"fdd_track_variants": [
+			{
+					"name":							"IBM PC 720k",
+					"track_format":			"TRACK_IBM_MFM",
+					"sector":						512,
+					"sectors":					9,
+					"gap0_size":				80,
+					"gap1_size":				50,
+					"gap2_size":				22,
+					"gap3_size":				84,
+					"gap4_size":				0
+			},
+			{
+					"name":							"IBM PC 800k",
+					"track_format":			"TRACK_IBM_MFM",
+					"sector":						512,
+					"sectors":					10,
+					"gap0_size":				80,
+					"gap1_size":				42,
+					"gap2_size":				22,
+					"gap3_size":				46,
+					"gap4_size":				0
+			},
+			{
+					"name":							"DVK MY 800k",
+					"track_format":			"TRACK_DVK_MY",
+					"sector":						512,
+					"sectors":					10,
+					"gap0_size":				0,
+					"gap1_size":				27,
+					"gap2_size":				24,
+					"gap3_size":				39,
+					"gap4_size":				0
+			},
+			{
+					"name":							"Korvet/Orion-128 800 k",
+					"track_format":			"TRACK_IBM_MFM",
+					"sector":						1024,
+					"sectors":					5,
+					"gap0_size":				80,
+					"gap1_size":				42,
+					"gap2_size":				22,
+					"gap3_size":				46,
+					"gap4_size":				0
+			}
+	],
+	"fdd_track_formats": [
+			{
+					"id":	              "TRACK_IBM_MFM",
+					
+					"gap0_byte":	      "0x4E",           
+					
+					"isync_byte":	      "0x00",
+					"isync_size":				12,
+					
+					"imark1_byte":	    "0xC2",
+					"imark1_sync":			"0x14",
+					"imark1_size":			3,
+					
+					"imark2_byte":	    "0xFC",           
+					"imark2_sync":			"0xFF",
+					"imark2_size":			1,
+					
+					"gap1_byte":	      "0x4E",
+					
+					"hsync_byte":	      "0x00",         
+					"hsync_size":				12,
+					
+					"amark1_byte":	    "0xA1",
+					"amark1_sync":			"0x0A",
+					"amark1_size":			3,
+					
+					"amark2_byte":	    "0xFE",
+					"amark2_sync":			"0xFF",
+					"amark2_size":			1,
+					
+					"hdesync_byte":	    0,
+					"hdesync_sync":			0,
+					"hdesync_size":			0,
+					
+					"gap2_byte":	      "0x4E",
+					
+					"dsync_byte":	      "0x00",
+					"dsync_size":				12,
+					
+					"dmark1_byte":	    "0xA1",
+					"dmark1_sync":			"0x0A",
+					"dmark1_size":			3,
+					
+					"dmark2_byte":	    "0xFB",
+					"dmark2_sync":			"0xFF",
+					"dmark2_size":			1,
+					
+					"ddesync_byte":	    0,
+					"ddesync_sync":			0,
+					"ddesync_size":			0,
+					
+					"gap3_byte":	      "0x4E",
+					"gap4_byte":	      "0x4E",
+					
+					"crc_poly":	        "0x1021",
+					"crc_init":					"0xFFFF",
+					
+					"track_len":	      6400
+			},
+			{
+					"id":	              "TRACK_DVK_MY",
+					
+					"gap0_byte":	      0,           
+					
+					"isync_byte":	      0,
+					"isync_size":				0,
+					
+					"imark1_byte":	    0,
+					"imark1_sync":			0,
+					"imark1_size":			0,
+					
+					"imark2_byte":	    0,           
+					"imark2_sync":			0,
+					"imark2_size":			0,
+					
+					"gap1_byte":	      "0x4E",
+					
+					"hsync_byte":	      "0x00",         
+					"hsync_size":				12,
+					
+					"amark1_byte":	    "0xA1",
+					"amark1_sync":			"0x0A",
+					"amark1_size":			3,
+					
+					"amark2_byte":	    "0xFE",
+					"amark2_sync":			"0xFF",
+					"amark2_size":			1,
+					
+					"hdesync_byte":	    "0xA1",
+					"hdesync_sync":			"0x0A",
+					"hdesync_size":			1,
+					
+					"gap2_byte":	      "0x4E",
+					
+					"dsync_byte":	      "0x00",
+					"dsync_size":				12,
+					
+					"dmark1_byte":	    "0xA1",
+					"dmark1_sync":			"0x0A",
+					"dmark1_size":			3,
+					
+					"dmark2_byte":	    "0xFB",
+					"dmark2_sync":			"0xFF",
+					"dmark2_size":			1,
+					
+					"ddesync_byte":	    "0xA1",
+					"ddesync_sync":			"0x0A",
+					"ddesync_size":			3,
+					
+					"gap3_byte":	      "0x4E",
+					"gap4_byte":	      "0x4E",
+					
+					"crc_poly":	        "0x1021",
+					"crc_init":					"0xFFFF",
+					
+					"track_len":	      6400
+			}
+	],
+	"fdd_track_descriptions": [
+			{
+					"id":							"TRACK_IBM_MFM",
+					"name":						"IBM MFM"
+			},
+			{
+					"id":							"TRACK_DVK_MY",
+					"name":						"DVK MY"
+			},
+			{
+					"id":							"TRACK_DVK_MX_OLD",
+					"name":						"DVK MX (old)"
+			},
+			{
+					"id":							"TRACK_DVK_MX_NEW",
+					"name":						"DVK MX (new)"
+			}
+	]
+	
+}
