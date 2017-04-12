@@ -21,24 +21,24 @@
 <context>
     <name>Converter</name>
     <message>
-        <location filename="../../mainwindow.cpp" line="519"/>
+        <location filename="../../mainwindow.cpp" line="482"/>
+        <location filename="../../mainwindow.cpp" line="514"/>
+        <location filename="../../mainwindow.cpp" line="520"/>
+        <location filename="../../mainwindow.cpp" line="541"/>
         <location filename="../../mainwindow.cpp" line="551"/>
-        <location filename="../../mainwindow.cpp" line="557"/>
-        <location filename="../../mainwindow.cpp" line="578"/>
-        <location filename="../../mainwindow.cpp" line="588"/>
-        <location filename="../../mainwindow.cpp" line="601"/>
+        <location filename="../../mainwindow.cpp" line="565"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="519"/>
-        <location filename="../../mainwindow.cpp" line="578"/>
+        <location filename="../../mainwindow.cpp" line="482"/>
+        <location filename="../../mainwindow.cpp" line="541"/>
         <source>Error reading input file</source>
         <translation>Ошибка чтения входного файла</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="527"/>
-        <location filename="../../mainwindow.cpp" line="540"/>
+        <location filename="../../mainwindow.cpp" line="490"/>
+        <location filename="../../mainwindow.cpp" line="503"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
@@ -51,42 +51,50 @@
         <translation type="vanished">Размер исходного файла больше требуемого. В случае продолжения часть данных может быть потеряна. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="528"/>
         <source>File size is too small. Ignore?</source>
-        <translation>Размер исходного файла меньше требуемого. В случае продолжения недостающие секторы будут заполнены нулевыми значениями. Продолжить?</translation>
+        <translation type="vanished">Размер исходного файла меньше требуемого. В случае продолжения недостающие секторы будут заполнены нулевыми значениями. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="532"/>
+        <location filename="../../mainwindow.cpp" line="495"/>
         <source>Warning: File size is too small.</source>
         <translation>Предупреждение: Размер файла меньше необходимого. Недостающие данные будут заполнены пустыми значениями.</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="541"/>
         <source>File size is too large. Ignore?</source>
-        <translation>Размер исходного файла больше требуемого. В случае продолжения часть данных может быть потеряна. Продолжить?</translation>
+        <translation type="vanished">Размер исходного файла больше требуемого. В случае продолжения часть данных может быть потеряна. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="545"/>
+        <location filename="../../mainwindow.cpp" line="491"/>
+        <source>%1: File size is too small. Ignore?</source>
+        <translation>%1: Размер исходного файла меньше требуемого. В случае продолжения недостающие секторы будут заполнены нулевыми значениями. Продолжить?</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="504"/>
+        <source>%1: File size is too large. Ignore?</source>
+        <translation>%1: Размер исходного файла больше требуемого. В случае продолжения часть данных может быть потеряна. Продолжить?</translation>
+    </message>
+    <message>
+        <location filename="../../mainwindow.cpp" line="508"/>
         <source>Warning: File size is too large.</source>
         <translation>Предупреждение: Размер файла больше необходимого. Часть данных будет потеряна.</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="551"/>
+        <location filename="../../mainwindow.cpp" line="514"/>
         <source>File parameters mismatch</source>
         <translation>Выбранные параметры не соответствуют указанным в файле</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="557"/>
+        <location filename="../../mainwindow.cpp" line="520"/>
         <source>File is corrupt</source>
         <translation>Файл поврежден, либо неправильно выбран его формат</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="588"/>
+        <location filename="../../mainwindow.cpp" line="551"/>
         <source>Error writing output file</source>
         <translation>Ошибка записи выходного файла</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="601"/>
+        <location filename="../../mainwindow.cpp" line="565"/>
         <source>Source and destination are not selected</source>
         <translation>Не выбраны исходный файл или директория для записи нового образа</translation>
     </message>
@@ -226,10 +234,15 @@
         <translation type="vanished">&gt;&gt;&gt;ЗАГОЛОВОК&lt;&lt;&lt;</translation>
     </message>
     <message>
-        <location filename="../../libs/loader_td0.cpp" line="95"/>
         <source>Signature: &quot;TD&quot; (RLE compression)
 </source>
-        <translation>Сигнатура: &quot;TD&quot; (Сжатие RLE)\r\n</translation>
+        <translation type="vanished">Сигнатура: &quot;TD&quot; (Сжатие RLE)\r\n</translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="109"/>
+        <location filename="../../libs/loader_td0.cpp" line="143"/>
+        <source>CRC16:	$%1 </source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../libs/loader_td0.cpp" line="97"/>
@@ -290,12 +303,6 @@
         <location filename="../../libs/loader_td0.cpp" line="252"/>
         <source>Heads:	%1
 </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="109"/>
-        <location filename="../../libs/loader_td0.cpp" line="143"/>
-        <source>CRC16:	$%1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -381,80 +388,9 @@ Performing LZSS decompression
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../libs/loader_td0.cpp" line="169"/>
-        <source>
-SECTOR RECORDS == $FF, finishing
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="173"/>
-        <source>CRC: $%1 </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="177"/>
-        <source>ERROR! Expected $%1
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="182"/>
-        <source>ERROR! Unexpected end of file
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="185"/>
-        <source>  $%1: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="191"/>
-        <source>SECTOR: %1; </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="194"/>
-        <source>SIZE: %1; </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="195"/>
-        <source>FLAGS: $%1; </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="199"/>
-        <source>
-SECTOR# == $65, finishing
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="206"/>
-        <source>TYPE: Empty; </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="214"/>
-        <source>DATALEN: %1; </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="216"/>
-        <source>TYPE: Normal; </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../libs/loader_td0.cpp" line="229"/>
         <source>ERROR! Sector data is corrupt
 </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="237"/>
-        <source>TYPE: Ghost; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -489,6 +425,51 @@ SECTOR# == $65, finishing
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../libs/loader_td0.cpp" line="173"/>
+        <source>CRC: $%1 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="185"/>
+        <source>  $%1: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="191"/>
+        <source>SECTOR: %1; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="194"/>
+        <source>SIZE: %1; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="195"/>
+        <source>FLAGS: $%1; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="206"/>
+        <source>TYPE: Empty; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="214"/>
+        <source>DATALEN: %1; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="216"/>
+        <source>TYPE: Normal; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="237"/>
+        <source>TYPE: Ghost; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../libs/loader_td0.cpp" line="118"/>
         <location filename="../../libs/loader_td0.cpp" line="150"/>
         <source>ERROR! Expected $%1 </source>
@@ -497,6 +478,32 @@ SECTOR# == $65, finishing
     <message>
         <location filename="../../libs/loader_td0.cpp" line="140"/>
         <source>	</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="169"/>
+        <source>
+SECTOR RECORDS == $FF, finishing
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="177"/>
+        <source>ERROR! Expected $%1
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="182"/>
+        <source>ERROR! Unexpected end of file
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="199"/>
+        <source>
+SECTOR# == $65, finishing
+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -527,9 +534,9 @@ SECTOR# == $65, finishing
     <name>Main</name>
     <message>
         <location filename="../../diskparamsdlg.cpp" line="106"/>
-        <location filename="../../mainwindow.cpp" line="621"/>
-        <location filename="../../mainwindow.cpp" line="629"/>
-        <location filename="../../mainwindow.cpp" line="655"/>
+        <location filename="../../mainwindow.cpp" line="585"/>
+        <location filename="../../mainwindow.cpp" line="593"/>
+        <location filename="../../mainwindow.cpp" line="617"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -539,17 +546,17 @@ SECTOR# == $65, finishing
         <translation>Неизвестный тип модуляции</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="621"/>
+        <location filename="../../mainwindow.cpp" line="585"/>
         <source>Error reading config file</source>
         <translation>Не найден файл конфигурации (config.json)</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="629"/>
+        <location filename="../../mainwindow.cpp" line="593"/>
         <source>Config parse error: %1</source>
         <translation>Трассировка файла конфигурации (config.json) закончилась с ошибкой: %1</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="655"/>
+        <location filename="../../mainwindow.cpp" line="617"/>
         <source>Error converting config HEX value</source>
         <translation>Ошибка конвертации HEX-значения в файле конфигурации</translation>
     </message>
@@ -620,7 +627,7 @@ SECTOR# == $65, finishing
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="447"/>
+        <location filename="../../mainwindow.cpp" line="404"/>
         <source>Custom disk type</source>
         <translation>Нестандартный</translation>
     </message>

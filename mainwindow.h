@@ -84,9 +84,11 @@ private slots:
 
     void on_toolButton_2_clicked();
 
-    void on_toolButton_clicked();
+    void on_AnalyzeBtn_clicked();
 
     void on_actionAbout_triggered();
+
+    void on_leftFiles_clicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

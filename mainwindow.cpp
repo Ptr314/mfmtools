@@ -432,7 +432,7 @@ void MainWindow::resize_columns()
     ui->rightFiles->header()->resizeSection(0,w2-210);
 }
 
-void MainWindow::on_toolButton_clicked()
+void MainWindow::on_AnalyzeBtn_clicked()
 {
     process_files(false);
 }
@@ -449,110 +449,146 @@ void MainWindow::process_files(bool do_conversion)
     uint8_t err;
     QString log;
     bool continue_process;
+    bool abort_process = false;
+    bool size_yes_to_all = false;
+    bool size_no_to_all = false;
 
-    list_left = ui->leftFiles->selectionModel()->selectedIndexes();
-    list_right = ui->rightDirs->selectionModel()->selectedIndexes();
+    list_left = ui->leftFiles->selectionModel()->selectedRows();
+    list_right = ui->rightDirs->selectionModel()->selectedRows();
+
+    bool processing_multiple = list_left.size() > 1;
+
+    int warning_buttons = QMessageBox::Yes | QMessageBox::No;
+    if (processing_multiple) warning_buttons |= QMessageBox::Abort | QMessageBox::YesToAll | QMessageBox::NoToAll;
 
     if (list_left.size()>0 && list_right.size()>0) {
-        index_left = list_left.first();
-        fileInfo_left = leftFilesModel->fileInfo(index_left);
+        foreach(index_left, list_left) {
+            //index_left = list_left.first();
+            fileInfo_left = leftFilesModel->fileInfo(index_left);
 
-        index_right = list_right.first();
-        fileInfo_right = rightDirsModel->fileInfo(index_right);
+            index_right = list_right.first();
+            fileInfo_right = rightDirsModel->fileInfo(index_right);
 
-        if (ui->leftFormatCombo->currentIndex() == 0) {
-            fddf = this->custom_fddf;
-        } else {
-            fddf = fdd_formats[ui->leftFormatCombo->currentIndex()].toObject();
-        }
-        inp_ft = file_formats[ui->leftFilesFilter->currentIndex()].toObject();
-        out_ft = target_formats[ui->rightFilesFilter->currentIndex()].toObject();
-        td = fdd_track_descriptions[ui->rightFormatCombo->currentIndex()].toObject();
+            if (ui->leftFormatCombo->currentIndex() == 0) {
+                fddf = this->custom_fddf;
+            } else {
+                fddf = fdd_formats[ui->leftFormatCombo->currentIndex()].toObject();
+            }
+            inp_ft = file_formats[ui->leftFilesFilter->currentIndex()].toObject();
+            out_ft = target_formats[ui->rightFilesFilter->currentIndex()].toObject();
+            td = fdd_track_descriptions[ui->rightFormatCombo->currentIndex()].toObject();
 
-        err = file_convert(fddf, inp_ft, out_ft, fdd_track_formats, fdd_track_variants, td["id"].toString(), fileInfo_left.absoluteFilePath(), fileInfo_right.absoluteFilePath(), FDD_CONV_CHECK, &log);
-        switch (err){
-            case FDD_LOAD_ERROR:
-            {
-                QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "Error reading input file"));
-                continue_process = false;
-                break;
-            }
-            case FDD_LOAD_SIZE_SMALLER:
-            {
-                if (do_conversion) {
-                    continue_process = QMessageBox::warning(0,
-                                             qApp->translate("Converter", "Warning"),
-                                             qApp->translate("Converter", "File size is too small. Ignore?"),
-                                             QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort | QMessageBox::YesToAll | QMessageBox::NoToAll
-                                       ) == QMessageBox::Yes;
-                } else {
-                    log.append(qApp->translate("Converter", "Warning: File size is too small."));
-                }
-                break;
-            }
-            case FDD_LOAD_SIZE_LARGER:
-            {
-                if (do_conversion) {
-                    continue_process = QMessageBox::warning(0,
-                                             qApp->translate("Converter", "Warning"),
-                                             qApp->translate("Converter", "File size is too large. Ignore?"),
-                                             QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort | QMessageBox::YesToAll | QMessageBox::NoToAll
-                                       ) == QMessageBox::Yes;
-                } else {
-                    log.append(qApp->translate("Converter", "Warning: File size is too large."));
-                }
-                break;
-            }
-            case FDD_LOAD_PARAMS_MISMATCH:
-            {
-                QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "File parameters mismatch"));
-                continue_process = false;
-                break;
-            }
-            case FDD_LOAD_FILE_CORRUPT:
-            {
-                QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "File is corrupt"));
-                continue_process = false;
-                break;
-            }
-            default:
-            {
-                continue_process = true;
-                break;
-            }
-        };
-
-        if (continue_process && do_conversion) {
-            err = file_convert(fddf, inp_ft, out_ft, fdd_track_formats, fdd_track_variants, td["id"].toString(), fileInfo_left.absoluteFilePath(), fileInfo_right.absoluteFilePath(), FDD_CONV_CONVERT, &log);
+            err = file_convert(fddf, inp_ft, out_ft, fdd_track_formats, fdd_track_variants, td["id"].toString(), fileInfo_left.absoluteFilePath(), fileInfo_right.absoluteFilePath(), FDD_CONV_CHECK, &log);
             switch (err){
-                case FDD_CONV_UNKNOWN_INPUT:
-                {
-                    QMessageBox::critical(0, "Error", "Unknown input file type");
-                    break;
-                }
-                case FDD_CONV_READ_ERROR:
+                case FDD_LOAD_ERROR:
                 {
                     QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "Error reading input file"));
+                    continue_process = false;
                     break;
                 }
-                case FDD_CONV_UNKNOWN_OUTPUT:
+                case FDD_LOAD_SIZE_SMALLER:
+                case FDD_LOAD_SIZE_LARGER:
                 {
-                    QMessageBox::critical(0, "Error", "Unknown output file type");
+                    if (size_yes_to_all) {
+                        continue_process = true;
+                    } else
+                    if (size_no_to_all) {
+                        continue_process = false;
+                    } else
+                    if (do_conversion) {
+                        int res;
+                        if (err == FDD_LOAD_SIZE_SMALLER)
+                            res = QMessageBox::warning(0,
+                                         qApp->translate("Converter", "Warning"),
+                                         QString(qApp->translate("Converter", "%1: File size is too small. Ignore?")).arg(fileInfo_left.fileName()),
+                                         (QMessageBox::StandardButton)warning_buttons
+                                  );
+                        else
+                            res = QMessageBox::warning(0,
+                                         qApp->translate("Converter", "Warning"),
+                                         QString(qApp->translate("Converter", "%1: File size is too large. Ignore?")).arg(fileInfo_left.fileName()),
+                                         (QMessageBox::StandardButton)warning_buttons
+                                  ) == QMessageBox::Yes;
+                        switch (res) {
+                        case QMessageBox::Yes:
+                            continue_process = true;
+                            break;
+                        case QMessageBox::No:
+                            continue_process = false;
+                            break;
+                        case QMessageBox::YesToAll:
+                            continue_process = true;
+                            size_yes_to_all = true;
+                            break;
+                        case QMessageBox::NoToAll:
+                            continue_process = false;
+                            size_no_to_all = true;
+                            break;
+                        case QMessageBox::Abort:
+                            abort_process = true;
+                            break;
+                        };
+
+                    } else {
+                        if (err == FDD_LOAD_SIZE_SMALLER)
+                            log.append(qApp->translate("Converter", "Warning: File size is too small."));
+                        else
+                            log.append(qApp->translate("Converter", "Warning: File size is too large."));
+                    }
                     break;
                 }
-                case FDD_CONV_WRITE_ERROR:
+                case FDD_LOAD_PARAMS_MISMATCH:
                 {
-                    QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "Error writing output file"));
+                    QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "File parameters mismatch"));
+                    continue_process = false;
+                    break;
+                }
+                case FDD_LOAD_FILE_CORRUPT:
+                {
+                    QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "File is corrupt"));
+                    continue_process = false;
                     break;
                 }
                 default:
-                break;
+                {
+                    continue_process = true;
+                    break;
+                }
+            };
+            if (abort_process) break;
+            if (continue_process && do_conversion) {
+                err = file_convert(fddf, inp_ft, out_ft, fdd_track_formats, fdd_track_variants, td["id"].toString(), fileInfo_left.absoluteFilePath(), fileInfo_right.absoluteFilePath(), FDD_CONV_CONVERT, &log);
+                switch (err){
+                    case FDD_CONV_UNKNOWN_INPUT:
+                    {
+                        QMessageBox::critical(0, "Error", "Unknown input file type");
+                        break;
+                    }
+                    case FDD_CONV_READ_ERROR:
+                    {
+                        QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "Error reading input file"));
+                        break;
+                    }
+                    case FDD_CONV_UNKNOWN_OUTPUT:
+                    {
+                        QMessageBox::critical(0, "Error", "Unknown output file type");
+                        break;
+                    }
+                    case FDD_CONV_WRITE_ERROR:
+                    {
+                        QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "Error writing output file"));
+                        break;
+                    }
+                    default:
+                    break;
+                }
+            } else {
+                if (!processing_multiple) {
+                    LoggerDlg dlg(this);
+                    dlg.setLogText(&log);
+                    dlg.exec();
+                }
             }
-        } else {
-            LoggerDlg dlg(this);
-            dlg.setLogText(&log);
-            dlg.exec();
-
         }
     } else
         QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "Source and destination are not selected"));
@@ -615,4 +651,9 @@ QJsonArray MainWindow::ConvertJsonHex(QJsonArray jsonArray)
         new_array.append(obj);
     }
     return new_array;
+}
+
+void MainWindow::on_leftFiles_clicked(const QModelIndex &index)
+{
+    ui->AnalyzeBtn->setEnabled(ui->leftFiles->selectionModel()->selectedRows().size() == 1);
 }
