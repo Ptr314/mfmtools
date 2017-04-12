@@ -104,7 +104,7 @@ uint8_t LoaderRAW::load(bool check_only, bool ignore_warnings, QString *log)
 
         //swap byte order for LSB-first files
         if (!this->msb_first) {
-            for (uint16_t i; i < this->image_size/2; i++) {
+            for (uint16_t i=0; i < this->image_size/2; i++) {
                 uint8_t tmp = this->buffer[i*2];
                 this->buffer[i] = this->buffer[i*2+1];
                 this->buffer[i*2+1] = tmp;

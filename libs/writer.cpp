@@ -47,5 +47,5 @@ QString Writer::get_file_ext(){
 
 uint8_t Writer::write(QString FileName)
 {
-
+    return 0;
 }
