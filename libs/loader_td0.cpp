@@ -188,9 +188,9 @@ uint8_t LoaderTD0::load(bool check_only, bool ignore_warnings, QString *log)
                     LO_HI sector_header_crc;
                     sector_header_crc.word = 0;
                     CRC16((uint8_t*)&sector_header, sizeof(sector_header)-sizeof(sector_header.crc), &sector_header_crc.word, 0xA097);
-                    log->append(QString(tr("SECTOR: %1; ")).arg(QString::number(sector_header.sector)));
+                    log->append(QString(tr("SECTOR: %1; ")).arg(QString::number(sector_header.sector).rightJustified(2, ' ')));
                     log->append(QString(tr("HEAD: %1; ")).arg(QString::number(sector_header.head)));
-                    log->append(QString(tr("TRACK: %1; ")).arg(QString::number(sector_header.track)));
+                    log->append(QString(tr("TRACK: %1; ")).arg(QString::number(sector_header.track).rightJustified(2, ' ')));
                     log->append(QString(tr("SIZE: %1; ")).arg(QString::number(code_to_sector_size(sector_header.size_code))));
                     log->append(QString(tr("FLAGS: $%1; ")).arg(QString::number(sector_header.control, 16).rightJustified(2, '0').toUpper()));
                     //log->append(QString(tr("CRC: $%1 ")).arg(QString::number(sector_header.crc, 16).rightJustified(2, '0').toUpper()));

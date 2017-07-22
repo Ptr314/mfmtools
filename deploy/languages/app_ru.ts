@@ -21,24 +21,24 @@
 <context>
     <name>Converter</name>
     <message>
-        <location filename="../../mainwindow.cpp" line="482"/>
-        <location filename="../../mainwindow.cpp" line="514"/>
-        <location filename="../../mainwindow.cpp" line="520"/>
-        <location filename="../../mainwindow.cpp" line="541"/>
-        <location filename="../../mainwindow.cpp" line="551"/>
-        <location filename="../../mainwindow.cpp" line="565"/>
+        <location filename="../../mainwindow.cpp" line="485"/>
+        <location filename="../../mainwindow.cpp" line="542"/>
+        <location filename="../../mainwindow.cpp" line="548"/>
+        <location filename="../../mainwindow.cpp" line="569"/>
+        <location filename="../../mainwindow.cpp" line="579"/>
+        <location filename="../../mainwindow.cpp" line="594"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="482"/>
-        <location filename="../../mainwindow.cpp" line="541"/>
+        <location filename="../../mainwindow.cpp" line="485"/>
+        <location filename="../../mainwindow.cpp" line="569"/>
         <source>Error reading input file</source>
         <translation>Ошибка чтения входного файла</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="490"/>
-        <location filename="../../mainwindow.cpp" line="503"/>
+        <location filename="../../mainwindow.cpp" line="502"/>
+        <location filename="../../mainwindow.cpp" line="508"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
@@ -55,7 +55,7 @@
         <translation type="vanished">Размер исходного файла меньше требуемого. В случае продолжения недостающие секторы будут заполнены нулевыми значениями. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="495"/>
+        <location filename="../../mainwindow.cpp" line="534"/>
         <source>Warning: File size is too small.</source>
         <translation>Предупреждение: Размер файла меньше необходимого. Недостающие данные будут заполнены пустыми значениями.</translation>
     </message>
@@ -64,37 +64,37 @@
         <translation type="vanished">Размер исходного файла больше требуемого. В случае продолжения часть данных может быть потеряна. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="491"/>
+        <location filename="../../mainwindow.cpp" line="503"/>
         <source>%1: File size is too small. Ignore?</source>
         <translation>%1: Размер исходного файла меньше требуемого. В случае продолжения недостающие секторы будут заполнены нулевыми значениями. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="504"/>
+        <location filename="../../mainwindow.cpp" line="509"/>
         <source>%1: File size is too large. Ignore?</source>
         <translation>%1: Размер исходного файла больше требуемого. В случае продолжения часть данных может быть потеряна. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="508"/>
+        <location filename="../../mainwindow.cpp" line="536"/>
         <source>Warning: File size is too large.</source>
         <translation>Предупреждение: Размер файла больше необходимого. Часть данных будет потеряна.</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="514"/>
+        <location filename="../../mainwindow.cpp" line="542"/>
         <source>File parameters mismatch</source>
         <translation>Выбранные параметры не соответствуют указанным в файле</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="520"/>
+        <location filename="../../mainwindow.cpp" line="548"/>
         <source>File is corrupt</source>
         <translation>Файл поврежден, либо неправильно выбран его формат</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="551"/>
+        <location filename="../../mainwindow.cpp" line="579"/>
         <source>Error writing output file</source>
         <translation>Ошибка записи выходного файла</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="565"/>
+        <location filename="../../mainwindow.cpp" line="594"/>
         <source>Source and destination are not selected</source>
         <translation>Не выбраны исходный файл или директория для записи нового образа</translation>
     </message>
@@ -239,12 +239,6 @@
         <translation type="vanished">Сигнатура: &quot;TD&quot; (Сжатие RLE)\r\n</translation>
     </message>
     <message>
-        <location filename="../../libs/loader_td0.cpp" line="109"/>
-        <location filename="../../libs/loader_td0.cpp" line="143"/>
-        <source>CRC16:	$%1 </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../libs/loader_td0.cpp" line="97"/>
         <source>Signature: &quot;td&quot; (RLE+LZSS compression)
 </source>
@@ -303,6 +297,12 @@
         <location filename="../../libs/loader_td0.cpp" line="252"/>
         <source>Heads:	%1
 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="109"/>
+        <location filename="../../libs/loader_td0.cpp" line="143"/>
+        <source>CRC16:	$%1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -388,6 +388,37 @@ Performing LZSS decompression
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../libs/loader_td0.cpp" line="169"/>
+        <source>
+SECTOR RECORDS == $FF, finishing
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="173"/>
+        <source>CRC: $%1 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="177"/>
+        <source>ERROR! Expected $%1
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="182"/>
+        <source>ERROR! Unexpected end of file
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../libs/loader_td0.cpp" line="199"/>
+        <source>
+SECTOR# == $65, finishing
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../libs/loader_td0.cpp" line="229"/>
         <source>ERROR! Sector data is corrupt
 </source>
@@ -422,11 +453,6 @@ Performing LZSS decompression
         <location filename="../../libs/loader_td0.cpp" line="256"/>
         <source>Image size: %1 bytes
 </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="173"/>
-        <source>CRC: $%1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -481,32 +507,6 @@ Performing LZSS decompression
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../libs/loader_td0.cpp" line="169"/>
-        <source>
-SECTOR RECORDS == $FF, finishing
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="177"/>
-        <source>ERROR! Expected $%1
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="182"/>
-        <source>ERROR! Unexpected end of file
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../libs/loader_td0.cpp" line="199"/>
-        <source>
-SECTOR# == $65, finishing
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../libs/loader_td0.cpp" line="225"/>
         <source>CRC OK</source>
         <translation type="unfinished"></translation>
@@ -534,9 +534,9 @@ SECTOR# == $65, finishing
     <name>Main</name>
     <message>
         <location filename="../../diskparamsdlg.cpp" line="106"/>
-        <location filename="../../mainwindow.cpp" line="585"/>
-        <location filename="../../mainwindow.cpp" line="593"/>
-        <location filename="../../mainwindow.cpp" line="617"/>
+        <location filename="../../mainwindow.cpp" line="614"/>
+        <location filename="../../mainwindow.cpp" line="622"/>
+        <location filename="../../mainwindow.cpp" line="646"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -546,17 +546,17 @@ SECTOR# == $65, finishing
         <translation>Неизвестный тип модуляции</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="585"/>
+        <location filename="../../mainwindow.cpp" line="614"/>
         <source>Error reading config file</source>
         <translation>Не найден файл конфигурации (config.json)</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="593"/>
+        <location filename="../../mainwindow.cpp" line="622"/>
         <source>Config parse error: %1</source>
         <translation>Трассировка файла конфигурации (config.json) закончилась с ошибкой: %1</translation>
     </message>
     <message>
-        <location filename="../../mainwindow.cpp" line="617"/>
+        <location filename="../../mainwindow.cpp" line="646"/>
         <source>Error converting config HEX value</source>
         <translation>Ошибка конвертации HEX-значения в файле конфигурации</translation>
     </message>
@@ -588,7 +588,7 @@ SECTOR# == $65, finishing
     <message>
         <location filename="../../mainwindow.ui" line="163"/>
         <source>Detect</source>
-        <translation>Анализ файлы</translation>
+        <translation>Анализ файлов</translation>
     </message>
     <message>
         <location filename="../../mainwindow.ui" line="142"/>
