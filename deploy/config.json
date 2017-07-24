@@ -63,7 +63,7 @@
 			},
 			{
 					"id":								"DISK_PC_DS_DD_720",
-					"name":							"IBM PC DS/DD (720k)",
+					"name":							"IBM PC::DS/DD (720k)",
 					"heads":						2,
 					"tracks":						80,
 					"sectors":					9,
@@ -75,7 +75,7 @@
 			},
 			{
 					"id":								"DISK_PC_DS_DD_800",
-					"name":							"IBM PC DS/DD (800k)",
+					"name":							"IBM PC::DS/DD (800k)",
 					"heads":						2,
 					"tracks":						80,
 					"sectors":					10,
@@ -87,7 +87,7 @@
 			},
 			{
 					"id":								"DISK_MY_DS_DD_800",
-					"name":							"DVK MY DS/DD (800k)",
+					"name":							"DVK::MY DS/DD (800k)",
 					"heads":						2,
 					"tracks":						80,
 					"sectors":					10,
@@ -99,7 +99,7 @@
 			},
 			{
 					"id":								"DISK_MX_SS_40",
-					"name":							"DVK MX 1x40 (110k)",
+					"name":							"DVK::MX 1x40 (110k)",
 					"heads":						1,
 					"tracks":						40,
 					"sectors":					11,
@@ -111,7 +111,7 @@
 			},
 			{
 					"id":								"DISK_MX_SS_80",
-					"name":							"DVK MX 1x80 (220k)",
+					"name":							"DVK::MX 1x80 (220k)",
 					"heads":						1,
 					"tracks":						80,
 					"sectors":					11,
@@ -123,7 +123,7 @@
 			},
 			{
 					"id":								"DISK_MX_DS_40",
-					"name":							"DVK MX 1x40 (220k)",
+					"name":							"DVK::MX 1x40 (220k)",
 					"heads":						2,
 					"tracks":						40,
 					"sectors":					11,
@@ -135,7 +135,7 @@
 			},
 			{
 					"id":								"DISK_MX_DS_80",
-					"name":							"DVK MX 1x80 (440k)",
+					"name":							"DVK::MX 1x80 (440k)",
 					"heads":						2,
 					"tracks":						80,
 					"sectors":					11,

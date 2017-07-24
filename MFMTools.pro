@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     loggerdlg.cpp \
     libs/writer_raw.cpp \
     libs/lzss.c \
-    libs/disk_formats.cpp
+    libs/disk_formats.cpp \
+    libs/hcombo.cpp
 
 HEADERS  += mainwindow.h \
     libs/mfm_formats.h \
@@ -54,7 +55,8 @@ HEADERS  += mainwindow.h \
     loggerdlg.h \
     libs/writer_raw.h \
     libs/lzss.h \
-    libs/config.h
+    libs/config.h \
+    libs/hcombo.h
 
 FORMS    += mainwindow.ui \
     diskparamsdlg.ui \

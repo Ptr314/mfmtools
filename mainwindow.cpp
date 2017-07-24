@@ -53,6 +53,7 @@
 #include "libs/disk_formats.h"
 #include "libs/loader.h"
 #include "libs/config.h"
+#include "libs/hcombo.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -177,12 +178,29 @@ void MainWindow::init_dropdowns(void)
     QJsonDocument doc = QJsonDocument::fromJson(settings->value("formats/custom").toByteArray());
     this->custom_fddf = doc.object();
 
-    ui->leftFormatCombo->clear();
+    HierarhicalItemModel * model = new HierarhicalItemModel;
+
+    QString prevParent = "";
+    int i = 0;
 
     foreach (const QJsonValue & value, fdd_formats) {
         QJsonObject obj = value.toObject();
-        ui->leftFormatCombo->addItem(obj["name"].toString());
+        QString s = obj["name"].toString();
+        QStringList sl = s.split("::");
+        if (sl.count()==1) {
+            prevParent = "";
+            model->addIndependentItem(s, i++);
+        } else {
+            if (prevParent.length()==0 || prevParent != sl[0]) {
+                model->addParentItem(sl[0]);
+            }
+            model->addChildItem(sl[1], i++);
+            prevParent = sl[0];
+        }
     }
+
+    ui->leftFormatCombo->setModel(model);
+    ui->leftFormatCombo->setItemDelegate(new ComboBoxDelegate);
     update_custom_disk();
     ui->leftFormatCombo->setCurrentIndex(settings->value("formats/left_format_combo", 0).toInt());
 
@@ -381,7 +399,7 @@ void MainWindow::on_toolButton_2_clicked()
     QJsonObject fddf;
 
     DiskParamsDlg dlg(this);
-    int selected = ui->leftFormatCombo->currentIndex();
+    int selected = ui->leftFormatCombo->itemData(ui->leftFormatCombo->currentIndex()).toInt();
     if (selected != 0) {
         fddf = fdd_formats[selected].toObject();
     } else {
