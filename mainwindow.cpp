@@ -487,10 +487,11 @@ void MainWindow::process_files(bool do_conversion)
             index_right = list_right.first();
             fileInfo_right = rightDirsModel->fileInfo(index_right);
 
-            if (ui->leftFormatCombo->currentIndex() == 0) {
+            int selected = ui->leftFormatCombo->itemData(ui->leftFormatCombo->currentIndex()).toInt();
+            if (selected == 0) {
                 fddf = this->custom_fddf;
             } else {
-                fddf = fdd_formats[ui->leftFormatCombo->currentIndex()].toObject();
+                fddf = fdd_formats[selected].toObject();
             }
             inp_ft = file_formats[ui->leftFilesFilter->currentIndex()].toObject();
             out_ft = target_formats[ui->rightFilesFilter->currentIndex()].toObject();
