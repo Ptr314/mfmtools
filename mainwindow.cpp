@@ -622,7 +622,7 @@ void MainWindow::on_actionAbout_triggered()
     Ui_About aboutUi;
     aboutUi.setupUi(about);
 
-    about->show();
+    about->exec();
 }
 
 void MainWindow::load_config(void)
