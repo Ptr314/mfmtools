@@ -284,8 +284,9 @@ void switchTranslator(QTranslator& translator, const QString& filename)
  qApp->removeTranslator(&translator);
 
  // load the new translator
- if(translator.load(filename))
-  qApp->installTranslator(&translator);
+ if(translator.load(filename)) {
+    qApp->installTranslator(&translator);
+ }
 }
 
 void MainWindow::loadLanguage(const QString& rLanguage)
@@ -481,7 +482,6 @@ void MainWindow::process_files(bool do_conversion)
 
     if (list_left.size()>0 && list_right.size()>0) {
         foreach(index_left, list_left) {
-            //index_left = list_left.first();
             fileInfo_left = leftFilesModel->fileInfo(index_left);
 
             index_right = list_right.first();
@@ -527,7 +527,7 @@ void MainWindow::process_files(bool do_conversion)
                                          qApp->translate("Converter", "Warning"),
                                          QString(qApp->translate("Converter", "%1: File size is too large. Ignore?")).arg(fileInfo_left.fileName()),
                                          (QMessageBox::StandardButton)warning_buttons
-                                  ) == QMessageBox::Yes;
+                                  );
                         switch (res) {
                         case QMessageBox::Yes:
                             continue_process = true;
@@ -558,7 +558,11 @@ void MainWindow::process_files(bool do_conversion)
                 }
                 case FDD_LOAD_PARAMS_MISMATCH:
                 {
-                    QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "File parameters mismatch"));
+                    if (do_conversion) {
+                        QMessageBox::critical(0, qApp->translate("Converter", "Error"), qApp->translate("Converter", "File parameters mismatch"));
+                    } else {
+                        log.append(qApp->translate("Converter", "File parameters mismatch"));
+                    }
                     continue_process = false;
                     break;
                 }

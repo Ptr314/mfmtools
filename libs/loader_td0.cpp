@@ -39,6 +39,7 @@
 #include <QDebug>
 #include <QTextCodec>
 #include <QCoreApplication>
+#include <QApplication>
 
 #include "loader_td0.h"
 #include "crc16.h"
@@ -90,120 +91,119 @@ uint8_t LoaderTD0::load(bool check_only, bool ignore_warnings, QString *log)
     else file_type = 0;
 
     if (file_type) {
-        log->append(tr(">>>HEADER<<<\r\n"));
+        log->append(qApp->translate("TD0", ">>>HEADER<<<")+"\r\n");
         if (file_type == 1) {
-            log->append(tr("Signature: \"TD\" (RLE compression)\r\n"));
+            log->append(qApp->translate("TD0", "Signature: \"TD\" (RLE compression)")+"\r\n");
         } else {
-            log->append(tr("Signature: \"td\" (RLE+LZSS compression)\r\n"));
+            log->append(qApp->translate("TD0", "Signature: \"td\" (RLE+LZSS compression)")+"\r\n");
         }
-        log->append(QString(tr("Volume:\t%1\r\n")).arg(QString::number(main_header.volume)));
-        log->append(QString(tr("Chunk:\t%1\r\n")).arg(QString::number(main_header.chunk)));
-        log->append(QString(tr("Version:\t%1\r\n")).arg(QString::number(main_header.version)));
-        log->append(QString(tr("Density:\t%1\r\n")).arg(QString::number(main_header.density)));
-        log->append(QString(tr("Type:\t%1\r\n")).arg(QString::number(main_header.device_type)));
-        log->append(QString(tr("Flags:\t$%1\r\n")).arg(QString::number(main_header.flags, 16)));
+        log->append(QString(qApp->translate("TD0", "Volume:\t%1")+"\r\n").arg(QString::number(main_header.volume)));
+        log->append(QString(qApp->translate("TD0", "Chunk:\t%1")+"\r\n").arg(QString::number(main_header.chunk)));
+        log->append(QString(qApp->translate("TD0", "Version:\t%1")+"\r\n").arg(QString::number(main_header.version)));
+        log->append(QString(qApp->translate("TD0", "Density:\t%1")+"\r\n").arg(QString::number(main_header.density)));
+        log->append(QString(qApp->translate("TD0", "Type:\t%1")+"\r\n").arg(QString::number(main_header.device_type)));
+        log->append(QString(qApp->translate("TD0", "Flags:\t$%1")+"\r\n").arg(QString::number(main_header.flags, 16)));
         if (main_header.flags and 0x80)
-            log->append(QString(tr("\tComment presents ($80)\r\n")));
-        log->append(QString(tr("DOS:\t%1\r\n")).arg(QString::number(main_header.dos)));
-        log->append(QString(tr("Heads:\t%1\r\n")).arg(QString::number(main_header.heads)));
-        log->append(QString(tr("CRC16:\t$%1 ")).arg(QString::number(main_header.crc, 16).rightJustified(4, '0').toUpper()));
+            log->append(QString(qApp->translate("TD0", "\tComment presents ($80)")+"\r\n"));
+        log->append(QString(qApp->translate("TD0", "DOS:\t%1")+"\r\n").arg(QString::number(main_header.dos)));
+        log->append(QString(qApp->translate("TD0", "Heads:\t%1")+"\r\n").arg(QString::number(main_header.heads)));
+        log->append(QString(qApp->translate("TD0", "CRC16:\t$%1 ")).arg(QString::number(main_header.crc, 16).rightJustified(4, '0').toUpper()));
 
         detected_format["heads"] = main_header.heads;
 
         uint16_t header_crc = 0;
         CRC16((uint8_t*)&main_header, sizeof(main_header)-sizeof(main_header.crc), &header_crc, 0xA097);
         if (main_header.crc == header_crc)
-            log->append(QString(tr("(OK)\r\n")));
+            log->append(QString(qApp->translate("TD0", "(OK)")+"\r\n"));
         else {
-            log->append(QString(tr("ERROR! Expected $%1 ")).arg(QString::number(header_crc, 16).rightJustified(4, '0').toUpper()));
+            log->append(QString(qApp->translate("TD0", "ERROR! Expected $%1 ")).arg(QString::number(header_crc, 16).rightJustified(4, '0').toUpper()));
             return FDD_LOAD_FILE_CORRUPT;
         }
         if (file_type == 2) {
-            log->append(tr("\r\nPerforming LZSS decompression\r\n"));
+            log->append("\r\n"+qApp->translate("TD0", "Performing LZSS decompression")+"\r\n");
             file_data = lzss_unpack(file_data, file_data_size, sizeof(main_header), &file_data_size);
             file_data_ptr = sizeof(main_header);
-            log->append(QString(tr("Decompressed file size: %1 bytes\r\n")).arg(QString::number(file_data_size)));
+            log->append(QString(qApp->translate("TD0", "Decompressed file size: %1 bytes")+"\r\n").arg(QString::number(file_data_size)));
         }
         //Comment
         if (main_header.flags and 0x80) {
             memcpy(&comment_header, &file_data[file_data_ptr], sizeof(comment_header));
             file_data_ptr+=sizeof(comment_header);
-            log->append(tr("\r\n>>>COMMENT<<<\r\n"));
-            log->append(QString(tr("Length:\t%1\r\n")).arg(QString::number(comment_header.length)));
-            log->append(QString(tr("Date:\t%1-%2-%3 %4:%5:%6\r\n")).arg(QString::number(comment_header.year+1900)).arg(QString::number(comment_header.month+1).rightJustified(2, '0')).arg(QString::number(comment_header.day).rightJustified(2, '0')).arg(QString::number(comment_header.hour)).arg(QString::number(comment_header.min)).arg(QString::number(comment_header.sec)));
+            log->append("\r\n"+qApp->translate("TD0", ">>>COMMENT<<<")+"\r\n");
+            log->append(QString(qApp->translate("TD0", "Length:\t%1")+"\r\n").arg(QString::number(comment_header.length)));
+            log->append(QString(qApp->translate("TD0", "Date:\t%1-%2-%3 %4:%5:%6")+"\r\n").arg(QString::number(comment_header.year+1900)).arg(QString::number(comment_header.month+1).rightJustified(2, '0')).arg(QString::number(comment_header.day).rightJustified(2, '0')).arg(QString::number(comment_header.hour)).arg(QString::number(comment_header.min)).arg(QString::number(comment_header.sec)));
             uint8_t * comment = new uint8_t[comment_header.length];
             memcpy(comment, &file_data[file_data_ptr], comment_header.length);
             file_data_ptr+=comment_header.length;
-            log->append(tr("Comment body:\r\n"));
+            log->append(qApp->translate("TD0", "Comment body:")+"\r\n");
 
             QTextCodec *codec = QTextCodec::codecForName("IBM 866");
-            log->append(tr("\t"));
+            log->append("\t");
             log->append(codec->toUnicode(QByteArray((char*)comment, comment_header.length).replace(QChar::Null, QByteArray("\r\n\t"))).trimmed());
-            log->append(tr("\r\n"));
-            log->append(QString(tr("CRC16:\t$%1 ")).arg(QString::number(comment_header.crc, 16).rightJustified(4, '0').toUpper()));
+            log->append("\r\n");
+            log->append(QString(qApp->translate("TD0", "CRC16:\t$%1 ")).arg(QString::number(comment_header.crc, 16).rightJustified(4, '0').toUpper()));
             uint16_t comment_crc = 0;
             CRC16((uint8_t*)&comment_header.length, sizeof(comment_header)-sizeof(comment_header.crc), &comment_crc, 0xA097);
             CRC16((uint8_t*)comment, comment_header.length, &comment_crc, 0xA097);
             if (comment_header.crc == comment_crc)
-                log->append(QString(tr("(OK)\r\n")));
+                log->append(QString(qApp->translate("TD0", "(OK)")+"\r\n"));
             else {
-                log->append(QString(tr("ERROR! Expected $%1 ")).arg(QString::number(comment_crc, 16).rightJustified(4, '0').toUpper()));
+                log->append(QString(qApp->translate("TD0", "ERROR! Expected $%1 ")).arg(QString::number(comment_crc, 16).rightJustified(4, '0').toUpper()));
                 return FDD_LOAD_FILE_CORRUPT;
             }
         }
         //Tracks
-        log->append(tr("\r\n>>>TRACKS<<<\r\n"));
-        //while (!file.atEnd()) {
+        log->append("\r\n"+qApp->translate("TD0", ">>>TRACKS<<<")+"\r\n");
         while ((file_data_ptr < file_data_size) && !Terminate) {
             uint8_t sectors_per_track = 0;
-            log->append(QString(tr("$%1: ")).arg(QString::number(file_data_ptr, 16).rightJustified(6, '0').toUpper()));
+            log->append(QString("$%1: ").arg(QString::number(file_data_ptr, 16).rightJustified(6, '0').toUpper()));
             memcpy(&track_header, &file_data[file_data_ptr], sizeof(track_header));
             file_data_ptr+=sizeof(track_header);
             LO_HI track_header_crc;
             track_header_crc.word = 0;
             CRC16((uint8_t*)&track_header, sizeof(track_header)-sizeof(track_header.crc), &track_header_crc.word, 0xA097);
-            log->append(QString(tr("TRACK: %1; ")).arg(QString::number(track_header.track)));
-            log->append(QString(tr("HEAD: %1; ")).arg(QString::number(track_header.head)));
-            log->append(QString(tr("SECTOR RECORDS: %1; ")).arg(QString::number(track_header.data_records)));
+            log->append(QString(qApp->translate("TD0", "TRACK: %1; ")).arg(QString::number(track_header.track)));
+            log->append(QString(qApp->translate("TD0", "HEAD: %1; ")).arg(QString::number(track_header.head)));
+            log->append(QString(qApp->translate("TD0", "SECTOR RECORDS: %1; ")).arg(QString::number(track_header.data_records)));
             if (track_header.data_records == 0xFF) {
-                log->append(tr("\r\nSECTOR RECORDS == $FF, finishing\r\n"));
+                log->append("\r\n"+qApp->translate("TD0", "SECTOR RECORDS == $FF, finishing")+"\r\n");
                 Terminate = true;
             }
             if (!Terminate) {
-                log->append(QString(tr("CRC: $%1 ")).arg(QString::number(track_header.crc, 16).rightJustified(2, '0').toUpper()));
+                log->append(QString(qApp->translate("TD0", "CRC: $%1 ")).arg(QString::number(track_header.crc, 16).rightJustified(2, '0').toUpper()));
                 if (track_header.crc == track_header_crc.byte.lo)
-                    log->append(tr("(OK)\r\n"));
+                    log->append(qApp->translate("TD0", "(OK)")+"\r\n");
                 else {
-                    log->append(QString(tr("ERROR! Expected $%1\r\n")).arg(QString::number(track_header_crc.byte.lo, 16).rightJustified(2, '0').toUpper()));
+                    log->append(QString(qApp->translate("TD0", "ERROR! Expected $%1")+"\r\n").arg(QString::number(track_header_crc.byte.lo, 16).rightJustified(2, '0').toUpper()));
                     return FDD_LOAD_FILE_CORRUPT;
                 }
                 for (int i=0; i < track_header.data_records; i++) {
                     if (file_data_ptr >= file_data_size) {
-                        log->append(tr("ERROR! Unexpected end of file\r\n"));
+                        log->append(qApp->translate("TD0", "ERROR! Unexpected end of file")+"\r\n");
                         return FDD_LOAD_FILE_CORRUPT;
                     }
-                    log->append(QString(tr("  $%1: ")).arg(QString::number(file_data_ptr, 16).rightJustified(6, '0').toUpper()));
+                    log->append(QString("  $%1: ").arg(QString::number(file_data_ptr, 16).rightJustified(6, '0').toUpper()));
                     memcpy(&sector_header, &file_data[file_data_ptr], sizeof(sector_header));
                     file_data_ptr+=sizeof(sector_header);
                     LO_HI sector_header_crc;
                     sector_header_crc.word = 0;
                     CRC16((uint8_t*)&sector_header, sizeof(sector_header)-sizeof(sector_header.crc), &sector_header_crc.word, 0xA097);
-                    log->append(QString(tr("SECTOR: %1; ")).arg(QString::number(sector_header.sector).rightJustified(2, ' ')));
-                    log->append(QString(tr("HEAD: %1; ")).arg(QString::number(sector_header.head)));
-                    log->append(QString(tr("TRACK: %1; ")).arg(QString::number(sector_header.track).rightJustified(2, ' ')));
-                    log->append(QString(tr("SIZE: %1; ")).arg(QString::number(code_to_sector_size(sector_header.size_code))));
-                    log->append(QString(tr("FLAGS: $%1; ")).arg(QString::number(sector_header.control, 16).rightJustified(2, '0').toUpper()));
-                    //log->append(QString(tr("CRC: $%1 ")).arg(QString::number(sector_header.crc, 16).rightJustified(2, '0').toUpper()));
+                    log->append(QString(qApp->translate("TD0", "SECTOR: %1; ")).arg(QString::number(sector_header.sector).rightJustified(2, ' ')));
+                    log->append(QString(qApp->translate("TD0", "HEAD: %1; ")).arg(QString::number(sector_header.head)));
+                    log->append(QString(qApp->translate("TD0", "TRACK: %1; ")).arg(QString::number(sector_header.track).rightJustified(2, ' ')));
+                    log->append(QString(qApp->translate("TD0", "SIZE: %1; ")).arg(QString::number(code_to_sector_size(sector_header.size_code))));
+                    log->append(QString(qApp->translate("TD0", "FLAGS: $%1; ")).arg(QString::number(sector_header.control, 16).rightJustified(2, '0').toUpper()));
+                    //log->append(QString(qApp->translate("TD0", "CRC: $%1 ")).arg(QString::number(sector_header.crc, 16).rightJustified(2, '0').toUpper()));
 
                     if (sector_header.sector == 0x65) {
-                        log->append(tr("\r\nSECTOR# == $65, finishing\r\n"));
+                        log->append("\r\n"+qApp->translate("TD0", "SECTOR# == $65, finishing")+"\r\n");
                         Terminate = true;
                         break;
                     } else {
                         if (!(sector_header.control & 0x30) && !(sector_header.size_code & 0xF8)) {
                             if (sector_header.control == 0x10) {
                                 //Sector is empty
-                                log->append(tr("TYPE: Empty; "));
+                                log->append(qApp->translate("TD0", "TYPE: Empty; "));
                                 //Fill data with zeroes!
                                 //if (!check_only) memset(&(this->buffer[p], 0, code_to_sector_size(sector_header.size_code));
                                 sectors_per_track++;
@@ -211,9 +211,9 @@ uint8_t LoaderTD0::load(bool check_only, bool ignore_warnings, QString *log)
                                 uint16_t data_len;
                                 memcpy(&data_len, &file_data[file_data_ptr], sizeof(data_len));
                                 file_data_ptr+=sizeof(data_len);
-                                log->append(QString(tr("DATALEN: %1; ")).arg(QString::number(data_len)));
+                                log->append(QString(qApp->translate("TD0", "DATALEN: %1; ")).arg(QString::number(data_len)));
                                 if (sector_header.sector < 100) {
-                                    log->append(tr("TYPE: Normal; "));
+                                    log->append(qApp->translate("TD0", "TYPE: Normal; "));
                                     //Here we read data
                                     if (!check_only) {
                                         uint32_t p = ((sector_header.track * main_header.heads + sector_header.head)*this->fdd_format["sectors"].toInt() + sector_header.sector-1)*code_to_sector_size(sector_header.size_code);
@@ -222,11 +222,11 @@ uint8_t LoaderTD0::load(bool check_only, bool ignore_warnings, QString *log)
                                         data_crc.word = 0;
                                         CRC16((uint8_t*)&this->buffer[p], code_to_sector_size(sector_header.size_code), &data_crc.word, 0xA097);
                                         if (sector_header.crc == data_crc.byte.lo)
-                                            log->append(tr("CRC OK"));
+                                            log->append(qApp->translate("TD0", "CRC OK"));
                                         else
-                                            log->append(tr("CRC ERROR"));
+                                            log->append(qApp->translate("TD0", "CRC ERROR"));
                                         if ((res != FDD_LOAD_OK) ||(sector_header.crc != data_crc.byte.lo) ) {
-                                            log->append(tr("ERROR! Sector data is corrupt\r\n"));
+                                            log->append(qApp->translate("TD0", "ERROR! Sector data is corrupt")+"\r\n");
                                             return res;
                                         }
                                     } else {
@@ -234,7 +234,7 @@ uint8_t LoaderTD0::load(bool check_only, bool ignore_warnings, QString *log)
                                     }
                                     sectors_per_track++;
                                 } else {
-                                    log->append(tr("TYPE: Ghost; "));
+                                    log->append(qApp->translate("TD0", "TYPE: Ghost; "));
                                     //Here we have to skip data?
                                     file_data_ptr += data_len;
                                 }
@@ -243,17 +243,17 @@ uint8_t LoaderTD0::load(bool check_only, bool ignore_warnings, QString *log)
                             }
                         }
                     }
-                    log->append(tr("\r\n"));
+                    log->append("\r\n");
                 }//For
                 if (sectors_per_track > detected_format["sectors"].toInt()) detected_format["sectors"] = sectors_per_track;
             } //Terminate
         } //While not EOF
-        log->append(tr("\r\n>>>DETECTED DISK PARAMETERS<<<\r\n"));
-        log->append(QString(tr("Heads:\t%1\r\n")).arg(QString::number(detected_format["heads"].toInt())));
-        log->append(QString(tr("Tracks:\t%1\r\n")).arg(QString::number(detected_format["tracks"].toInt())));
-        log->append(QString(tr("Sectors:\t%1\r\n")).arg(QString::number(detected_format["sectors"].toInt())));
-        log->append(QString(tr("Sector size: %1\r\n")).arg(QString::number(detected_format["sector"].toInt())));
-        log->append(QString(tr("Image size: %1 bytes\r\n")).arg(QString::number((uint32_t)detected_format["sector"].toInt() * detected_format["sectors"].toInt() * detected_format["tracks"].toInt() * detected_format["heads"].toInt())));
+        log->append("\r\n"+qApp->translate("TD0", ">>>DETECTED DISK PARAMETERS<<<")+"\r\n");
+        log->append(QString(qApp->translate("TD0", "Heads:\t%1")+"\r\n").arg(QString::number(detected_format["heads"].toInt())));
+        log->append(QString(qApp->translate("TD0", "Tracks:\t%1")+"\r\n").arg(QString::number(detected_format["tracks"].toInt())));
+        log->append(QString(qApp->translate("TD0", "Sectors:\t%1")+"\r\n").arg(QString::number(detected_format["sectors"].toInt())));
+        log->append(QString(qApp->translate("TD0", "Sector size: %1")+"\r\n").arg(QString::number(detected_format["sector"].toInt())));
+        log->append(QString(qApp->translate("TD0", "Image size: %1 bytes")+"\r\n").arg(QString::number((uint32_t)detected_format["sector"].toInt() * detected_format["sectors"].toInt() * detected_format["tracks"].toInt() * detected_format["heads"].toInt())));
 
         if ((detected_format["heads"].toInt() != this->fdd_format["heads"].toInt()) || (detected_format["sector"].toInt() != this->fdd_format["sector"].toInt()) || (detected_format["sectors"].toInt() != this->fdd_format["sectors"].toInt()) || (detected_format["tracks"].toInt() != this->fdd_format["tracks"].toInt()) ) {
             return FDD_LOAD_PARAMS_MISMATCH;
