@@ -40,6 +40,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
+#include <QActionGroup>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -621,7 +622,7 @@ void MainWindow::process_files(bool do_conversion)
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QDialog * about = new QDialog(0,0);
+    QDialog * about = new QDialog(this);
 
     Ui_About aboutUi;
     aboutUi.setupUi(about);
