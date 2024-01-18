@@ -173,7 +173,21 @@
           "track_fomat":       "TRACK_IBM_MFM",
           "rpm":               300,
           "dtr":               250
-      }  ],
+      },
+      {
+          "id":                "APPLE_DISK2",
+          "name":              "Apple Disk ][ (140k)",
+          "heads":             1,
+          "tracks":            35,
+          "sectors":           16,
+          "sector":            256,
+          "modulation":        "MODULATION_GCR",
+          "track_fomat":       "TRACK_APPLE_DISK2",
+          "rpm":               300,
+          "dtr":               250
+      }
+
+  ],
   "fdd_track_variants": [
       {
           "name":              "IBM PC 720k",
@@ -354,6 +368,10 @@
       {
           "id":               "TRACK_DVK_MX_NEW",
           "name":             "DVK MX (new)"
+      },
+      {
+          "id":               "TRACK_APPLE_DISK2",
+          "name":             "Apple Disk ]["
       }
   ]
   

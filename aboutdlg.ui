@@ -57,12 +57,11 @@
    <property name="font">
     <font>
      <pointsize>16</pointsize>
-     <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string notr="true">MFMTools</string>
+    <string notr="true">eCat 3</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox">
@@ -127,7 +126,7 @@
     </rect>
    </property>
    <property name="text">
-    <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Version 0.1 &lt;br/&gt;© Panther &lt;br/&gt;&lt;a href=&quot;http://emuverse.ru/wiki/User:Panther&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://emuverse.ru/wiki/User:Panther&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Version 3.0.0 &lt;br/&gt;© &lt;a href=&quot;http://emuverse.ru/wiki/User:Panther&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Panther&lt;/span&gt;&lt;/a&gt; &lt;br/&gt;&lt;a href=&quot;https://github.com/Ptr314/ecat3&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Ptr314/ecat3&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

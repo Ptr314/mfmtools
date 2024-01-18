@@ -86,6 +86,7 @@ uint8_t file_convert(QJsonObject inp_fddf, QJsonObject inp_ft, QJsonObject out_f
             if (output_format_id == "FILE_RAW_MSB") {
                 writer = new WriterRAW(loader);
             } else {
+                delete loader;
                 return FDD_CONV_UNKNOWN_OUTPUT;
             }
 
@@ -96,6 +97,7 @@ uint8_t file_convert(QJsonObject inp_fddf, QJsonObject inp_ft, QJsonObject out_f
             break;
         }
     }
+    delete loader;
     return FDD_CONV_OK;
 }
 

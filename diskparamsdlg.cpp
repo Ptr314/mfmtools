@@ -103,6 +103,9 @@ void DiskParamsDlg::setValues(QJsonObject * fddf)
     if (modulation == "MODULATION_MFM")
         ui->modulationCombo->setCurrentIndex(1);
     else
+        if (modulation == "MODULATION_GCR")
+            ui->modulationCombo->setCurrentIndex(2);
+    else
         QMessageBox::critical(0, qApp->translate("Main", "Error"), qApp->translate("Main", "Unknown modulation type"));
     switch (fddf->value("rpm").toInt()) {
         case 300: ui->rpmCombo->setCurrentIndex(0);

@@ -165,6 +165,12 @@ uint8_t WriterMFM::write(QString FileName)
                 write_mx_track(&out, head, track);
             }
         }
+    } else
+    if (this->track_type == "TRACK_APPLE_DISK2") {
+        // TODO: Implement
+        for (uint8_t track = 0; track < this->loader->fdd_format["tracks"].toInt(); track++){
+            write_gcr62_track(&out, 0, track);
+        }
     } else {
         out.close();
         return FDD_WRITE_UNKNOWN_TRACK;
