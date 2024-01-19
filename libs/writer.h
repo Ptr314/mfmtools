@@ -39,9 +39,10 @@
 
 #include "loader.h"
 
-#define FDD_WRITE_OK            0
-#define FDD_WRITE_ERROR         1
-#define FDD_WRITE_UNKNOWN_TRACK 2
+#define FDD_WRITE_OK                 0
+#define FDD_WRITE_ERROR              1
+#define FDD_WRITE_UNKNOWN_TRACK      2
+#define FDD_WRITE_UNSUPPORTED_FORMAT 3
 
 
 class Writer

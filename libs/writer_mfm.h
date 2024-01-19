@@ -63,12 +63,18 @@ protected:
     void write_fm_array(QFile *out, uint8_t data, uint8_t clock, uint16_t count);
     void write_fm_data(QFile *out, uint8_t * data, uint8_t clock, uint16_t count);
 
+    void write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t head, uint8_t track);
+
     void write_hxc_header(QFile *out, uint16_t track_size);
 public:
     WriterMFM(Loader * loader, QString track_type, QJsonArray fdd_track_formats, QJsonArray fdd_track_variants);
     virtual QString get_file_ext() override;
     virtual uint8_t write(QString FileName) override;
 };
+
+QByteArray code44(const uint8_t buffer[], const int len);
+
+void encode_gcr62(const uint8_t data_in[], uint8_t * data_out, const int len);
 
 #endif // WRITER_MFM_H
 

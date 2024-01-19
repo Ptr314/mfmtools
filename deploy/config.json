@@ -232,6 +232,17 @@
           "gap2_size":         22,
           "gap3_size":         46,
           "gap4_size":         0
+      },
+      {
+          "name":              "Apple Disk ][ 140 k",
+          "track_format":      "TRACK_APPLE_DISK2",
+          "sector":            256,
+          "sectors":           16,
+          "gap0_size":         48,
+          "gap1_size":         6,
+          "gap2_size":         27,
+          "gap3_size":         0,
+          "gap4_size":         0
       }
   ],
   "fdd_track_formats": [

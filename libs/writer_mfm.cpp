@@ -40,6 +40,18 @@
 #include "crc16.h"
 #include "config.h"
 
+const uint8_t m_write_translate_table[64] =
+    {
+        0x96,0x97,0x9A,0x9B,0x9D,0x9E,0x9F,0xA6,
+        0xA7,0xAB,0xAC,0xAD,0xAE,0xAF,0xB2,0xB3,
+        0xB4,0xB5,0xB6,0xB7,0xB9,0xBA,0xBB,0xBC,
+        0xBD,0xBE,0xBF,0xCB,0xCD,0xCE,0xCF,0xD3,
+        0xD6,0xD7,0xD9,0xDA,0xDB,0xDC,0xDD,0xDE,
+        0xDF,0xE5,0xE6,0xE7,0xE9,0xEA,0xEB,0xEC,
+        0xED,0xEE,0xEF,0xF2,0xF3,0xF4,0xF5,0xF6,
+        0xF7,0xF9,0xFA,0xFB,0xFC,0xFD,0xFE,0xFF
+};
+
 WriterMFM::WriterMFM(Loader *loader, QString track_type, QJsonArray fdd_track_formats, QJsonArray fdd_track_variants)
     :Writer(loader)
 {
@@ -167,9 +179,28 @@ uint8_t WriterMFM::write(QString FileName)
         }
     } else
     if (this->track_type == "TRACK_APPLE_DISK2") {
-        // TODO: Implement
-        for (uint8_t track = 0; track < this->loader->fdd_format["tracks"].toInt(); track++){
-            write_gcr62_track(&out, 0, track);
+        QJsonObject track_variant = find_std_track_variant(track_type, loader->fdd_format);
+
+        if (track_variant["sector"].toInt() != 256)
+            return FDD_WRITE_UNSUPPORTED_FORMAT;
+
+        int track_len =   track_variant["gap0_size"].toInt()            // GAP 0
+                        + track_variant["sectors"].toInt() * (
+                              3 +                                       // Address prologue
+                              8 +                                       // Address
+                              3 +                                       // Address epilogue
+                              track_variant["gap1_size"].toInt() +      // GAP 1
+                              3 +                                       // Data prologue
+                              343 +                                     // Data
+                              3 +                                       // Data epilogue
+                              track_variant["gap2_size"].toInt()        // GAP 2
+                          );
+
+        if (write_hxc_mfm_header){
+            write_hxc_header(&out, track_len);
+        }
+        for (uint8_t track = 0; track < loader->fdd_format["tracks"].toInt(); track++){
+            write_gcr62_track(&out, track_variant, 0, track);
         }
     } else {
         out.close();
@@ -381,3 +412,78 @@ void WriterMFM::write_fm_data(QFile *out, uint8_t * data, uint8_t clock, uint16_
     }
 }
 
+QByteArray code44(const uint8_t buffer[], const int len)
+{
+    QByteArray result;
+    for (int i=0; i<len; i++) {
+        result.append(static_cast<char>( ((buffer[i] >> 1) & 0x55) | 0xaa));
+        result.append(static_cast<char>( ( buffer[i]       & 0x55) | 0xaa));
+    }
+
+    return result;
+}
+
+void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t head, uint8_t track)
+{
+    //track_variant["gap3_size"].toInt()
+    char gap_bytes[256];
+    memset(&gap_bytes, 0xFF, sizeof(gap_bytes));
+
+    int encoded_size = 342+2; //ceil(track_variant["sector"].toDouble() * 4 / 3)+2;
+    uint8_t * encoded_sector = new uint8_t[encoded_size];
+
+    // GAP 0
+    out->write(gap_bytes, track_variant["gap0_size"].toInt());
+
+    // Apple Disk ][ counts sectors from 0?
+    for (uint8_t sector = 0; sector < track_variant["sectors"].toInt(); sector++) {
+        // Prologue
+
+        out->write(QByteArray("\xD5\xAA\x96"));
+        // Address
+        uint8_t volume = 254;
+        uint8_t address_field[4] = {volume, track, sector, static_cast<uint8_t>(volume ^ track ^ sector)};
+        out->write(code44(address_field, 4));
+        // Epilogue
+        out->write(QByteArray("\xDE\xAA\xEB"));
+        // GAP 1
+        out->write(gap_bytes, track_variant["gap1_size"].toInt());
+        // Data field
+        // Prologue
+        out->write(QByteArray("\xD5\xAA\xAD"));
+        uint8_t * data = loader->get_sector_data(head, track, sector+1);        // Other code counts sectors from 1
+        encode_gcr62(data, encoded_sector, track_variant["sector"].toInt());
+        out->write(reinterpret_cast<char*>(encoded_sector), 343);
+        out->write(QByteArray("\xDE\xAA\xEB"));
+        // GAP 2
+        out->write(gap_bytes, track_variant["gap2_size"].toInt());
+    }
+
+    delete[] encoded_sector;
+}
+
+void encode_gcr62(const uint8_t data_in[], uint8_t * data_out, const int len)
+{
+    // The algorytm is taken from https://github.com/allender/apple2emu/blob/master/src/disk_image.cpp
+    memcpy(&data_out[0x56], data_in, len);
+    data_out[342]=0;                        //Extra byte should be zero
+
+    uint8_t offset = 0x0;
+    while (offset < 0x56) {
+        uint8_t val = (((data_in[offset + 0xac] & 0x1) << 1) | ((data_in[offset + 0xac] & 0x2) >> 1)) << 6;
+        val = val | ((((data_in[offset + 0x56] & 0x1) << 1) | ((data_in[offset + 0x56] & 0x2) >> 1)) << 4);
+        val = val | (((data_in[offset] & 0x1) << 1) | ((data_in[offset] & 0x2) >> 1)) << 2;
+        data_out[offset++] = val;
+    }
+    data_out[offset-1] &= 0x3f;
+    data_out[offset-2] &= 0x3f;
+    uint8_t xor_value = 0;
+    for (auto i = 0; i <= 343; i++) {
+        auto prev_val = data_out[i];
+        data_out[i] = data_out[i] ^ xor_value;
+        xor_value = prev_val;
+    }
+    for (auto i = 0; i <= 342; i++) {
+        data_out[i] = m_write_translate_table[data_out[i] >> 2];
+    }
+}
