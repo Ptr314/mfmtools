@@ -94,6 +94,7 @@ void WriterMFM::write_hxc_header(QFile *out, uint16_t track_size)
     strcpy((char*)&hxc_mfm_header.headername, "HXCMFM");
     hxc_mfm_header.number_of_track = this->loader->fdd_format["tracks"].toInt();
     hxc_mfm_header.number_of_side = this->loader->fdd_format["heads"].toInt();
+    int track_offset_mult = (hxc_mfm_header.number_of_side==2)?2:1;
     hxc_mfm_header.floppyRPM = this->loader->fdd_format["rpm"].toInt();
     hxc_mfm_header.floppyBitRate = this->loader->fdd_format["dtr"].toInt();
     hxc_mfm_header.floppyiftype = 0;
@@ -105,7 +106,7 @@ void WriterMFM::write_hxc_header(QFile *out, uint16_t track_size)
             hxc_mfm_track_info.track_number = track;
             hxc_mfm_track_info.side_number = head;
             hxc_mfm_track_info.mfmtracksize = track_size;
-            hxc_mfm_track_info.mfmtrackoffset = 0x800 + (track*2 + head)*track_size;
+            hxc_mfm_track_info.mfmtrackoffset = 0x800 + (track*track_offset_mult + head)*track_size;
             out->write((char*)(&hxc_mfm_track_info), sizeof(HXC_MFM_TRACK_INFO));
         }
     }
@@ -184,7 +185,11 @@ uint8_t WriterMFM::write(QString FileName)
         if (track_variant["sector"].toInt() != 256)
             return FDD_WRITE_UNSUPPORTED_FORMAT;
 
-        int track_len =   track_variant["gap0_size"].toInt()            // GAP 0
+        int track_len = 6400;
+
+        if (track_variant["gap3_size"].toInt() == 0) {
+            track_variant["gap3_size"] = track_len - (
+                        track_variant["gap0_size"].toInt()            // GAP 0
                         + track_variant["sectors"].toInt() * (
                               3 +                                       // Address prologue
                               8 +                                       // Address
@@ -194,8 +199,9 @@ uint8_t WriterMFM::write(QString FileName)
                               343 +                                     // Data
                               3 +                                       // Data epilogue
                               track_variant["gap2_size"].toInt()        // GAP 2
-                          );
-
+                          )
+                        );
+        }
         if (write_hxc_mfm_header){
             write_hxc_header(&out, track_len);
         }
@@ -458,6 +464,8 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
         // GAP 2
         out->write(gap_bytes, track_variant["gap2_size"].toInt());
     }
+    // GAP 3
+    out->write(gap_bytes, track_variant["gap3_size"].toInt());
 
     delete[] encoded_sector;
 }
