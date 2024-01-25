@@ -52,6 +52,10 @@ const uint8_t m_write_translate_table[64] =
         0xF7,0xF9,0xFA,0xFB,0xFC,0xFD,0xFE,0xFF
 };
 
+static const unsigned char FlipBit1[4] = { 0, 2,  1,  3  };
+static const unsigned char FlipBit2[4] = { 0, 8,  4,  12 };
+static const unsigned char FlipBit3[4] = { 0, 32, 16, 48 };
+
 WriterMFM::WriterMFM(Loader *loader, QString track_type, QJsonArray fdd_track_formats, QJsonArray fdd_track_variants)
     :Writer(loader)
 {
@@ -422,8 +426,10 @@ QByteArray code44(const uint8_t buffer[], const int len)
 {
     QByteArray result;
     for (int i=0; i<len; i++) {
-        result.append(static_cast<char>( ((buffer[i] >> 1) & 0x55) | 0xaa));
-        result.append(static_cast<char>( ( buffer[i]       & 0x55) | 0xaa));
+        //result.append(static_cast<char>( ((buffer[i] >> 1) & 0x55) | 0xaa));
+        //result.append(static_cast<char>( ( buffer[i]       & 0x55) | 0xaa));
+        result.append(static_cast<char>( (buffer[i] >> 1) | 0xaa));
+        result.append(static_cast<char>(  buffer[i]       | 0xaa));
     }
 
     return result;
@@ -435,8 +441,9 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
     char gap_bytes[256];
     memset(&gap_bytes, 0xFF, sizeof(gap_bytes));
 
-    int encoded_size = 342+2; //ceil(track_variant["sector"].toDouble() * 4 / 3)+2;
-    uint8_t * encoded_sector = new uint8_t[encoded_size];
+    //int encoded_size = 342+2; //ceil(track_variant["sector"].toDouble() * 4 / 3)+2;
+    //uint8_t * encoded_sector = new uint8_t[encoded_size];
+    uint8_t encoded_sector[344];
 
     // GAP 0
     out->write(gap_bytes, track_variant["gap0_size"].toInt());
@@ -444,10 +451,9 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
     // Apple Disk ][ counts sectors from 0?
     for (uint8_t sector = 0; sector < track_variant["sectors"].toInt(); sector++) {
         // Prologue
-
         out->write(QByteArray("\xD5\xAA\x96"));
         // Address
-        uint8_t volume = 254;
+        uint8_t volume = 0xFE;
         uint8_t address_field[4] = {volume, track, sector, static_cast<uint8_t>(volume ^ track ^ sector)};
         out->write(code44(address_field, 4));
         // Epilogue
@@ -457,9 +463,11 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
         // Data field
         // Prologue
         out->write(QByteArray("\xD5\xAA\xAD"));
+        // Data + CRC
         uint8_t * data = loader->get_sector_data(head, track, sector+1);        // Other code counts sectors from 1
         encode_gcr62(data, encoded_sector, track_variant["sector"].toInt());
         out->write(reinterpret_cast<char*>(encoded_sector), 343);
+        // Epilogue
         out->write(QByteArray("\xDE\xAA\xEB"));
         // GAP 2
         out->write(gap_bytes, track_variant["gap2_size"].toInt());
@@ -467,31 +475,54 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
     // GAP 3
     out->write(gap_bytes, track_variant["gap3_size"].toInt());
 
-    delete[] encoded_sector;
+    //delete[] encoded_sector;
 }
+
+// void encode_gcr62(const uint8_t data_in[], uint8_t * data_out, const int len)
+// {
+//     // The algorytm is taken from https://github.com/allender/apple2emu/blob/master/src/disk_image.cpp
+//     memcpy(&data_out[0x56], data_in, len);
+//     data_out[342]=0;                        //Extra byte should be zero
+
+//     uint8_t offset = 0x0;
+//     while (offset < 0x56) {
+//         uint8_t val = (((data_in[offset + 0xac] & 0x1) << 1) | ((data_in[offset + 0xac] & 0x2) >> 1)) << 6;
+//         val = val | ((((data_in[offset + 0x56] & 0x1) << 1) | ((data_in[offset + 0x56] & 0x2) >> 1)) << 4);
+//         val = val | (((data_in[offset] & 0x1) << 1) | ((data_in[offset] & 0x2) >> 1)) << 2;
+//         data_out[offset++] = val;
+//     }
+//     data_out[offset-1] &= 0x3f;
+//     data_out[offset-2] &= 0x3f;
+//     uint8_t xor_value = 0;
+//     for (auto i = 0; i <= 343; i++) {
+//         auto prev_val = data_out[i];
+//         data_out[i] = data_out[i] ^ xor_value;
+//         xor_value = prev_val;
+//     }
+//     for (auto i = 0; i <= 342; i++) {
+//         data_out[i] = m_write_translate_table[data_out[i] >> 2];
+//     }
+// }
 
 void encode_gcr62(const uint8_t data_in[], uint8_t * data_out, const int len)
 {
-    // The algorytm is taken from https://github.com/allender/apple2emu/blob/master/src/disk_image.cpp
-    memcpy(&data_out[0x56], data_in, len);
-    data_out[342]=0;                        //Extra byte should be zero
+    // https://tulip-house.ddo.jp/digital/SDISK2/english.html (dsk2nic.cpp)
+    uint8_t src[256+2];
+    memcpy(src, data_in, 256);
+    src[256] = src[257] = 0;
 
-    uint8_t offset = 0x0;
-    while (offset < 0x56) {
-        uint8_t val = (((data_in[offset + 0xac] & 0x1) << 1) | ((data_in[offset + 0xac] & 0x2) >> 1)) << 6;
-        val = val | ((((data_in[offset + 0x56] & 0x1) << 1) | ((data_in[offset + 0x56] & 0x2) >> 1)) << 4);
-        val = val | (((data_in[offset] & 0x1) << 1) | ((data_in[offset] & 0x2) >> 1)) << 2;
-        data_out[offset++] = val;
+    uint8_t vx = 0;
+
+    uint8_t v;
+    for (int i = 0; i < 86; i++) {
+        v = (FlipBit1[src[i]&3] | FlipBit2[src[i+86]&3] | FlipBit3[src[i+172]&3]);
+        *data_out++ = m_write_translate_table[(v ^ vx) & 0x3F];
+        vx = v;
     }
-    data_out[offset-1] &= 0x3f;
-    data_out[offset-2] &= 0x3f;
-    uint8_t xor_value = 0;
-    for (auto i = 0; i <= 343; i++) {
-        auto prev_val = data_out[i];
-        data_out[i] = data_out[i] ^ xor_value;
-        xor_value = prev_val;
+    for (int i = 0; i < 256; i++) {
+        v = src[i] >> 2;
+        *data_out++ = m_write_translate_table[(v ^ vx) & 0x3F];
+        vx = v;
     }
-    for (auto i = 0; i <= 342; i++) {
-        data_out[i] = m_write_translate_table[data_out[i] >> 2];
-    }
+    *data_out++ = m_write_translate_table[vx & 0x3F];
 }
