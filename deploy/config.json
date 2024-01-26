@@ -175,14 +175,14 @@
           "dtr":               250
       },
       {
-          "id":                "APPLE_DISK2",
-          "name":              "Apple Disk ][ (140k)",
+          "id":                "AGAT_140",
+          "name":              "Agat (140k)",
           "heads":             1,
           "tracks":            35,
           "sectors":           16,
           "sector":            256,
           "modulation":        "MODULATION_GCR",
-          "track_fomat":       "TRACK_APPLE_DISK2",
+          "track_fomat":       "TRACK_AGAT_140",
           "rpm":               300,
           "dtr":               250
       }
@@ -234,8 +234,8 @@
           "gap4_size":         0
       },
       {
-          "name":              "Apple Disk ][ 140 k",
-          "track_format":      "TRACK_APPLE_DISK2",
+          "name":              "Agat 140 k",
+          "track_format":      "TRACK_AGAT_140",
           "sector":            256,
           "sectors":           16,
           "gap0_size":         48,
@@ -381,8 +381,8 @@
           "name":             "DVK MX (new)"
       },
       {
-          "id":               "TRACK_APPLE_DISK2",
-          "name":             "Apple Disk ]["
+          "id":               "TRACK_AGAT_140",
+          "name":             "Agat 140k"
       }
   ]
   

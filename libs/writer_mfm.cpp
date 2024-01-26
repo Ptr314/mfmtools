@@ -56,6 +56,10 @@ static const unsigned char FlipBit1[4] = { 0, 2,  1,  3  };
 static const unsigned char FlipBit2[4] = { 0, 8,  4,  12 };
 static const unsigned char FlipBit3[4] = { 0, 32, 16, 48 };
 
+static const uint8_t agat_sector_translate[]={
+    0x00,0x0D,0x0B,0x09,0x07,0x05,0x03,0x01,0x0E,0x0C,0x0A,0x08,0x06,0x04,0x02,0x0F
+};
+
 WriterMFM::WriterMFM(Loader *loader, QString track_type, QJsonArray fdd_track_formats, QJsonArray fdd_track_variants)
     :Writer(loader)
 {
@@ -183,7 +187,7 @@ uint8_t WriterMFM::write(QString FileName)
             }
         }
     } else
-    if (this->track_type == "TRACK_APPLE_DISK2") {
+    if (this->track_type == "TRACK_AGAT_140") {
         QJsonObject track_variant = find_std_track_variant(track_type, loader->fdd_format);
 
         if (track_variant["sector"].toInt() != 256)
@@ -448,13 +452,14 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
     // GAP 0
     out->write(gap_bytes, track_variant["gap0_size"].toInt());
 
-    // Apple Disk ][ counts sectors from 0?
+    // Agat counts sectors from 0?
     for (uint8_t sector = 0; sector < track_variant["sectors"].toInt(); sector++) {
         // Prologue
         out->write(QByteArray("\xD5\xAA\x96"));
         // Address
         uint8_t volume = 0xFE;
-        uint8_t address_field[4] = {volume, track, sector, static_cast<uint8_t>(volume ^ track ^ sector)};
+        uint8_t sector_t = agat_sector_translate[sector];
+        uint8_t address_field[4] = {volume, track, sector_t, static_cast<uint8_t>(volume ^ track ^ sector_t)};
         out->write(code44(address_field, 4));
         // Epilogue
         out->write(QByteArray("\xDE\xAA\xEB"));
@@ -506,23 +511,66 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
 
 void encode_gcr62(const uint8_t data_in[], uint8_t * data_out, const int len)
 {
-    // https://tulip-house.ddo.jp/digital/SDISK2/english.html (dsk2nic.cpp)
-    uint8_t src[256+2];
-    memcpy(src, data_in, 256);
-    src[256] = src[257] = 0;
 
-    uint8_t vx = 0;
+    memset(data_out, 0, 0x157);
+    int ecx;
+    uint8_t al;
+    uint8_t cy;
 
-    uint8_t v;
-    for (int i = 0; i < 86; i++) {
-        v = (FlipBit1[src[i]&3] | FlipBit2[src[i+86]&3] | FlipBit3[src[i+172]&3]);
-        *data_out++ = m_write_translate_table[(v ^ vx) & 0x3F];
-        vx = v;
-    }
-    for (int i = 0; i < 256; i++) {
-        v = src[i] >> 2;
-        *data_out++ = m_write_translate_table[(v ^ vx) & 0x3F];
-        vx = v;
-    }
-    *data_out++ = m_write_translate_table[vx & 0x3F];
+    uint8_t bl = 2;                                     // mov ebx, 2h
+    do {                                                // @l2:
+        ecx = 0x55;                                     // mov ecx, 55h
+        do {                                            // @l1
+            bl--;                                       // dec bl
+            al = data_in[bl];                           // mov al, [esi+ebx]
+            cy = al & 0x01; al >>= 1;                   // shr al, 1
+            data_out[ecx] = (data_out[ecx] << 1) | cy;  // rcl byte ptr [edi+ecx], 1
+            cy = al & 0x01; al >>= 1;                   // shr al, 1
+            data_out[ecx] = (data_out[ecx] << 1) | cy;  // rcl byte ptr [edi+ecx], 1
+            data_out[0x56 + bl] = al;                   // mov byte ptr [edi+56h+ebx], al
+            ecx--;                                      // dec ecx
+        } while (ecx >= 0);                             // jns l1
+    } while(bl != 0);                                   // or ebx, ebx; jne	l2
+
+    al = 0;                                             // xor al, al
+    ecx = 0;                                            // xor ecx, ecx
+    bl = 0;                                             // xor ebx, ebx
+    uint8_t ah;
+    do {                                                // @l4:
+        ah = data_out[ecx];                             // mov ah, [edi+ecx]
+        bl = ah;                                        // mov bl, ah
+        bl ^= al;                                       // xor bl, al
+        al = ah;                                        // mov al, ah
+        bl = m_write_translate_table[bl];               // mov bl, CodeTabl[ebx]
+        data_out[ecx] = bl;                             // mov [edi+ecx], bl
+        ecx++;                                          // inc ecx
+    } while (ecx != 0x156);                             // cmp ecx, 156h; jne l4
+    bl = al;                                            // mov bl, al
+    bl = m_write_translate_table[bl];                   // mov bl, CodeTabl[ebx]
+    data_out[ecx] = bl;                                 // mov [edi+ecx], bl
 }
+
+
+
+// void encode_gcr62_(const uint8_t data_in[], uint8_t * data_out, const int len)
+// {
+//     // https://tulip-house.ddo.jp/digital/SDISK2/english.html (dsk2nic.cpp)
+//     uint8_t src[256+2];
+//     memcpy(src, data_in, 256);
+//     src[256] = src[257] = 0;
+
+//     uint8_t vx = 0;
+
+//     uint8_t v;
+//     for (int i = 0; i < 86; i++) {
+//         v = (FlipBit1[src[i]&3] | FlipBit2[src[i+86]&3] | FlipBit3[src[i+172]&3]);
+//         *data_out++ = m_write_translate_table[(v ^ vx) & 0x3F];
+//         vx = v;
+//     }
+//     for (int i = 0; i < 256; i++) {
+//         v = src[i] >> 2;
+//         *data_out++ = m_write_translate_table[(v ^ vx) & 0x3F];
+//         vx = v;
+//     }
+//     *data_out++ = m_write_translate_table[vx & 0x3F];
+// }
