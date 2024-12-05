@@ -72,7 +72,12 @@ install(TARGETS ${PROJECT_NAME}
 
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
-qt_add_translations(${PROJECT_NAME} TS_FILES
-    deploy/languages/en_US.ts
-    deploy/languages/ru_RU.ts
+set(TRANSLATION_FILES
+    translations/app_en.ts
+    translations/app_ru.ts
 )
+qt_add_translations(${PROJECT_NAME} TS_FILES
+    ${TRANSLATION_FILES}
+)
+
+set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "languages")
