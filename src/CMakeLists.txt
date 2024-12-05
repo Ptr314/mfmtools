@@ -81,3 +81,8 @@ qt_add_translations(${PROJECT_NAME} TS_FILES
 )
 
 set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "languages")
+
+configure_file(../deploy/config.json config.json COPYONLY)
+configure_file(../deploy/mfmtools.ini mfmtools.ini COPYONLY)
+configure_file(../deploy/languages/ru.png languages/ru.png COPYONLY)
+configure_file(../deploy/languages/en.png languages/en.png COPYONLY)
