@@ -43,9 +43,14 @@
           "type_extensions":   "*.*"
       },
       {
-          "id":                "FILE_MFM",
-          "type_name":         "MFM files",
-          "type_extensions":   "*.mfm"
+          "id":                "FILE_MFM_HFE",
+          "type_name":         "MFM / HFE files",
+          "type_extensions":   "*.mfm;*.hfe"
+      },
+      {
+          "id":                "FILE_MFM_NIC",
+          "type_name":         "MFM / NIC files",
+          "type_extensions":   "*.nic"
       },
       {
           "id":                "FILE_RAW_MSB",

@@ -80,8 +80,8 @@ uint8_t file_convert(QJsonObject inp_fddf, QJsonObject inp_ft, QJsonObject out_f
             if (loader->load(false, true, log) != FDD_LOAD_OK) return FDD_CONV_READ_ERROR;
 
             QString output_format_id = out_ft["id"].toString();
-            if (output_format_id == "FILE_MFM") {
-                writer = new WriterMFM(loader, mfm_track_id, fdd_track_formats, fdd_track_variants);
+            if (output_format_id == "FILE_MFM_HFE" || output_format_id == "FILE_MFM_NIC") {
+                writer = new WriterMFM(loader, mfm_track_id, fdd_track_formats, fdd_track_variants, output_format_id);
             } else
             if (output_format_id == "FILE_RAW_MSB") {
                 writer = new WriterRAW(loader);

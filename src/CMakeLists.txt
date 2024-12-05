@@ -14,7 +14,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui)
 find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Core5Compat Widgets)
 
 qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
-	${PROJECT_RESOURCES}
+    ${PROJECT_RESOURCES}
+    ../deploy/config.json
+
     aboutdlg.ui
     converter.cpp converter.h
     diskparamsdlg.cpp diskparamsdlg.h diskparamsdlg.ui

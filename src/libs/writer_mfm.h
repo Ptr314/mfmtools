@@ -47,7 +47,7 @@
 class WriterMFM:public Writer
 {
 protected:
-    QString track_type;
+    QString track_type, output_file_type;
     QJsonArray fdd_track_formats;
     QJsonArray fdd_track_variants;
     QJsonObject find_std_track_format(QString track_type);
@@ -64,10 +64,11 @@ protected:
     void write_fm_data(QFile *out, uint8_t * data, uint8_t clock, uint16_t count);
 
     void write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t head, uint8_t track);
+    void write_gcr62_nic_track(QFile *out, QJsonObject track_variant, uint8_t head, uint8_t track);
 
     void write_hxc_header(QFile *out, uint16_t track_size);
 public:
-    WriterMFM(Loader * loader, QString track_type, QJsonArray fdd_track_formats, QJsonArray fdd_track_variants);
+    WriterMFM(Loader * loader, QString track_type, QJsonArray fdd_track_formats, QJsonArray fdd_track_variants, QString output_file_type);
     virtual QString get_file_ext() override;
     virtual uint8_t write(QString FileName) override;
 };
