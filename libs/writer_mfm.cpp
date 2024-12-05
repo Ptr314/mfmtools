@@ -60,6 +60,14 @@ static const uint8_t agat_sector_translate[]={
     0x00,0x0D,0x0B,0x09,0x07,0x05,0x03,0x01,0x0E,0x0C,0x0A,0x08,0x06,0x04,0x02,0x0F
 };
 
+static const uint8_t agat_sector_translate_prodos[]={
+    0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x01,0x03,0x05,0x07,0x09,0x0B,0x0D,0x0F
+};
+
+static const uint8_t agat_sector_translate_test[]={
+    0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x9,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F
+};
+
 WriterMFM::WriterMFM(Loader *loader, QString track_type, QJsonArray fdd_track_formats, QJsonArray fdd_track_variants)
     :Writer(loader)
 {
@@ -448,6 +456,7 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
     //int encoded_size = 342+2; //ceil(track_variant["sector"].toDouble() * 4 / 3)+2;
     //uint8_t * encoded_sector = new uint8_t[encoded_size];
     uint8_t encoded_sector[344];
+    uint8_t encoded_sector_2[344];
 
     // GAP 0
     out->write(gap_bytes, track_variant["gap0_size"].toInt());
@@ -470,7 +479,12 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
         out->write(QByteArray("\xD5\xAA\xAD"));
         // Data + CRC
         uint8_t * data = loader->get_sector_data(head, track, sector+1);        // Other code counts sectors from 1
-        encode_gcr62(data, encoded_sector, track_variant["sector"].toInt());
+        encode_gcr62(data, encoded_sector);
+        // encode_gcr62_old(data, encoded_sector_2, track_variant["sector"].toInt());
+        // for (int i=0; i<344; i++)
+        //     if (encoded_sector[i] != encoded_sector_2[i]) {
+        //         qDebug() << i;
+        //     }
         out->write(reinterpret_cast<char*>(encoded_sector), 343);
         // Epilogue
         out->write(QByteArray("\xDE\xAA\xEB"));
@@ -509,48 +523,72 @@ void WriterMFM::write_gcr62_track(QFile *out, QJsonObject track_variant, uint8_t
 //     }
 // }
 
-void encode_gcr62(const uint8_t data_in[], uint8_t * data_out, const int len)
+// void encode_gcr62_old(const uint8_t data_in[], uint8_t * data_out, const int len)
+// {
+
+//     memset(data_out, 0, 0x157);
+//     int ecx;
+//     uint8_t al;
+//     uint8_t cy;
+
+//     uint8_t bl = 2;                                     // mov ebx, 2h
+//     do {                                                // @l2:
+//         ecx = 0x55;                                     // mov ecx, 55h
+//         do {                                            // @l1
+//             bl--;                                       // dec bl
+//             al = data_in[bl];                           // mov al, [esi+ebx]
+//             cy = al & 0x01; al >>= 1;                   // shr al, 1
+//             data_out[ecx] = (data_out[ecx] << 1) | cy;  // rcl byte ptr [edi+ecx], 1
+//             cy = al & 0x01; al >>= 1;                   // shr al, 1
+//             data_out[ecx] = (data_out[ecx] << 1) | cy;  // rcl byte ptr [edi+ecx], 1
+//             data_out[0x56 + bl] = al;                   // mov byte ptr [edi+56h+ebx], al
+//             ecx--;                                      // dec ecx
+//         } while (ecx >= 0);                             // jns l1
+//     } while(bl != 0);                                   // or ebx, ebx; jne	l2
+
+//     al = 0;                                             // xor al, al
+//     ecx = 0;                                            // xor ecx, ecx
+//     bl = 0;                                             // xor ebx, ebx
+//     uint8_t ah;
+//     do {                                                // @l4:
+//         ah = data_out[ecx];                             // mov ah, [edi+ecx]
+//         bl = ah;                                        // mov bl, ah
+//         bl ^= al;                                       // xor bl, al
+//         al = ah;                                        // mov al, ah
+//         bl = m_write_translate_table[bl];               // mov bl, CodeTabl[ebx]
+//         data_out[ecx] = bl;                             // mov [edi+ecx], bl
+//         ecx++;                                          // inc ecx
+//     } while (ecx != 0x156);                             // cmp ecx, 156h; jne l4
+//     bl = al;                                            // mov bl, al
+//     bl = m_write_translate_table[bl];                   // mov bl, CodeTabl[ebx]
+//     data_out[ecx] = bl;                                 // mov [edi+ecx], bl
+// }
+
+void encode_gcr62(const uint8_t data_in[], uint8_t * data_out)
 {
 
-    memset(data_out, 0, 0x157);
-    int ecx;
-    uint8_t al;
-    uint8_t cy;
+    // First 86 bytes are combined lower 2 bits of input data
+    for (int i = 0; i < 86; i++) {
+        data_out[i] = FlipBit1[data_in[i]&3] | FlipBit2[data_in[i+86]&3] | FlipBit3[data_in[(i+172) & 0xFF]&3];
+                                                                                                    // ^^ 2 extra bytes are wrapped to the beginning
+    }
 
-    uint8_t bl = 2;                                     // mov ebx, 2h
-    do {                                                // @l2:
-        ecx = 0x55;                                     // mov ecx, 55h
-        do {                                            // @l1
-            bl--;                                       // dec bl
-            al = data_in[bl];                           // mov al, [esi+ebx]
-            cy = al & 0x01; al >>= 1;                   // shr al, 1
-            data_out[ecx] = (data_out[ecx] << 1) | cy;  // rcl byte ptr [edi+ecx], 1
-            cy = al & 0x01; al >>= 1;                   // shr al, 1
-            data_out[ecx] = (data_out[ecx] << 1) | cy;  // rcl byte ptr [edi+ecx], 1
-            data_out[0x56 + bl] = al;                   // mov byte ptr [edi+56h+ebx], al
-            ecx--;                                      // dec ecx
-        } while (ecx >= 0);                             // jns l1
-    } while(bl != 0);                                   // or ebx, ebx; jne	l2
+    // Next 256 bytes are upper 6 bits
+    for (int i = 0; i < 256; i++) {
+        data_out[i+86] = data_in[i] >> 2;
+    }
 
-    al = 0;                                             // xor al, al
-    ecx = 0;                                            // xor ecx, ecx
-    bl = 0;                                             // xor ebx, ebx
-    uint8_t ah;
-    do {                                                // @l4:
-        ah = data_out[ecx];                             // mov ah, [edi+ecx]
-        bl = ah;                                        // mov bl, ah
-        bl ^= al;                                       // xor bl, al
-        al = ah;                                        // mov al, ah
-        bl = m_write_translate_table[bl];               // mov bl, CodeTabl[ebx]
-        data_out[ecx] = bl;                             // mov [edi+ecx], bl
-        ecx++;                                          // inc ecx
-    } while (ecx != 0x156);                             // cmp ecx, 156h; jne l4
-    bl = al;                                            // mov bl, al
-    bl = m_write_translate_table[bl];                   // mov bl, CodeTabl[ebx]
-    data_out[ecx] = bl;                                 // mov [edi+ecx], bl
+    // Then, encode 6 bits to 8 bits using a table and calculate a crc
+    uint8_t crc = 0;
+    for (int i = 0; i < 342; i++) {
+        uint8_t v = data_out[i];
+        data_out[i] = m_write_translate_table[v ^ crc];
+        crc = v;
+    }
+
+    // And finally add a crc byte
+    data_out[342] = m_write_translate_table[crc];
 }
-
-
 
 // void encode_gcr62_(const uint8_t data_in[], uint8_t * data_out, const int len)
 // {

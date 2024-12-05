@@ -1,1 +1,3 @@
-MFMTools.pro.user*
+.idea/
+build*/
+CMakeLists.txt.user*

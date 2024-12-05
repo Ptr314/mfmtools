@@ -56,6 +56,8 @@
 #include "libs/config.h"
 #include "libs/hcombo.h"
 
+#include "globals.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -626,6 +628,10 @@ void MainWindow::on_actionAbout_triggered()
 
     Ui_About aboutUi;
     aboutUi.setupUi(about);
+
+    aboutUi.info_label->setText(
+        aboutUi.info_label->text().replace("{$PROJECT_VERSION}", PROJECT_VERSION)
+        );
 
     about->exec();
 }

@@ -23,10 +23,10 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+    <enum>Qt::Orientation::Horizontal</enum>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::StandardButton::Ok</set>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -42,13 +42,13 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resources.qrc">:/icons/libs/icons/Emuverse3.png</pixmap>
+    <pixmap resource="build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/.qt/rcc/resources.qrc">:/icons/libs/icons/Emuverse3.png</pixmap>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>180</x>
      <y>10</y>
      <width>131</width>
      <height>31</height>
@@ -61,7 +61,7 @@
     </font>
    </property>
    <property name="text">
-    <string notr="true">eCat 3</string>
+    <string notr="true">MFMTools</string>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox">
@@ -113,28 +113,41 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+    <enum>Qt::Orientation::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="info_label">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>180</x>
      <y>40</y>
-     <width>191</width>
-     <height>61</height>
+     <width>211</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="text">
-    <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Version 3.0.0 &lt;br/&gt;© &lt;a href=&quot;http://emuverse.ru/wiki/User:Panther&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Panther&lt;/span&gt;&lt;/a&gt; &lt;br/&gt;&lt;a href=&quot;https://github.com/Ptr314/ecat3&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Ptr314/ecat3&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string notr="true">&lt;html&gt;&lt;head/&gt;
+&lt;body&gt;
+&lt;p&gt;Version {$PROJECT_VERSION}&lt;br/&gt;&lt;a href=&quot;https://github.com/Ptr314/mfmtools&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Ptr314/mfmtools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Создан в рамках поддержки&lt;br/&gt;
+&lt;a href=&quot;https://emuverse.ru&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://emuverse.ru&lt;/span&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+   <property name="openExternalLinks">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/.qt/rcc/resources.qrc"/>
  </resources>
  <connections>
   <connection>

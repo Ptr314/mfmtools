@@ -74,7 +74,8 @@ public:
 
 QByteArray code44(const uint8_t buffer[], const int len);
 
-void encode_gcr62(const uint8_t data_in[], uint8_t * data_out, const int len);
+void encode_gcr62(const uint8_t data_in[], uint8_t * data_out);
+void encode_gcr62_old(const uint8_t data_in[], uint8_t * data_out, const int len);
 
 #endif // WRITER_MFM_H
 

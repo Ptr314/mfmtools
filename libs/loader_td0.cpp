@@ -42,7 +42,7 @@
 #include <QApplication>
 
 #include "loader_td0.h"
-#include "crc16.h"
+#include "libs/crc16.h"
 #include "lzss.h"
 
 LoaderTD0::LoaderTD0(QJsonObject format, QString FileName)
