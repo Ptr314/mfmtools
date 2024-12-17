@@ -34,7 +34,7 @@
  *       Автор: Panther <http://www.emuverse.ru/wiki/User:Panther>
  */
 
-#include "CRC16.h"
+#include "crc16.h"
 
 void CRC16(uint8_t * buffer, uint16_t count, uint16_t * crc, uint16_t polynome)
 {

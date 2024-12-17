@@ -2,19 +2,33 @@ cmake_minimum_required(VERSION 3.16)
 
 project(MFMTools VERSION 1.0.0 LANGUAGES C CXX)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+#set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
 configure_file (globals.h.in ${CMAKE_CURRENT_SOURCE_DIR}/globals.h @ONLY)
 
-find_package(QT NAMES Qt5 Qt6 REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui)
-find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Core5Compat Widgets)
+set(RESOURCE_FILES resources.qrc)
 
-qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
-    ${PROJECT_RESOURCES}
+if(${QT_VERSION} VERSION_LESS 5.15.0)
+    qt5_add_resources(PROJECT_RESOURCES ${RESOURCE_FILES})
+else()
+    qt_add_resources(PROJECT_RESOURCES ${RESOURCE_FILES})
+endif()
+
+
+set(PROJECT_SOURCES
     ../deploy/config.json
 
     aboutdlg.ui
@@ -37,49 +51,50 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
     mainwindow.cpp mainwindow.h mainwindow.ui
 )
 
-set(resources_resource_files
-    "libs/icons/2leftarrow.png"
-    "libs/icons/2rightarrow.png"
-    "libs/icons/5floppy_mount.png"
-    "libs/icons/5floppy_mount_32x32.png"
-    "libs/icons/Emuverse3.png"
-    "libs/icons/cache.png"
-    "libs/icons/help.png"
-    "libs/icons/messagebox_info.png"
+set(TRANSLATION_FILES
+    translations/app_en.ts
+    translations/app_ru.ts
 )
 
-qt6_add_resources(MFMTools "resources"
-    PREFIX
-        "/icons"
-    FILES
-        ${resources_resource_files}
-)
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+        ${PROJECT_RESOURCES}
+    )
+    qt_add_translations(${PROJECT_NAME} TS_FILES
+        ${TRANSLATION_FILES}
+    )
+else()
+    add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
+        ${PROJECT_SOURCES}
+        ${PROJECT_RESOURCES}
+    )
+    qt5_add_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TRANSLATION_FILES})
+endif()
 
-target_link_libraries(MFMTools PUBLIC
-    Qt::Core
-    Qt::Gui
-    Qt::Widgets
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+if(${QT_VERSION} VERSION_LESS 6.1.0)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.${PROJECT_NAME})
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    ${BUNDLE_ID_OPTION}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
 )
 
 if((QT_VERSION_MAJOR GREATER 5))
-    target_link_libraries(MFMTools PUBLIC
-        Qt::Core5Compat
-    )
+    find_package(Qt6 REQUIRED COMPONENTS Core5Compat)
+    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core5Compat)
 endif()
 
 install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
-
-set(TRANSLATION_FILES
-    translations/app_en.ts
-    translations/app_ru.ts
-)
-qt_add_translations(${PROJECT_NAME} TS_FILES
-    ${TRANSLATION_FILES}
 )
 
 set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "languages")
@@ -88,3 +103,15 @@ configure_file(../deploy/config.json config.json COPYONLY)
 configure_file(../deploy/mfmtools.ini mfmtools.ini COPYONLY)
 configure_file(../deploy/languages/ru.png languages/ru.png COPYONLY)
 configure_file(../deploy/languages/en.png languages/en.png COPYONLY)
+
+include(GNUInstallDirs)
+
+install(TARGETS ${PROJECT_NAME}
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(${PROJECT_NAME})
+endif()

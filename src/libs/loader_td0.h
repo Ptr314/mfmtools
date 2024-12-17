@@ -41,7 +41,7 @@
 #include <QJsonObject>
 #include "loader.h"
 
-#pragma pack(1)
+#pragma pack(push, 1)
 
 typedef struct TD0_main_header_
 {
@@ -99,6 +99,8 @@ typedef struct TD0_pattern_
     uint8_t     count;
 
 }TD0_pattern;
+
+#pragma pack(pop)
 
 class LoaderTD0:public Loader
 {

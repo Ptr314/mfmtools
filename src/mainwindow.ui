@@ -30,7 +30,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="10,1,10">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -39,7 +39,6 @@
          <font>
           <family>Arial</family>
           <pointsize>10</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
           <stylestrategy>PreferDefault</stylestrategy>
          </font>
@@ -58,7 +57,6 @@
          <font>
           <family>Arial</family>
           <pointsize>10</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
           <stylestrategy>PreferDefault</stylestrategy>
           <kerning>true</kerning>
@@ -95,6 +93,7 @@
         </property>
         <property name="font">
          <font>
+          <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
          </font>
         </property>
@@ -124,13 +123,26 @@
         <item>
          <widget class="QComboBox" name="leftFormatCombo">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>36</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
+            <family>MS Shell Dlg 2</family>
             <pointsize>10</pointsize>
            </font>
           </property>
@@ -205,6 +217,18 @@
       </item>
       <item>
        <widget class="QToolButton" name="btn_dir_left_to_right">
+        <property name="minimumSize">
+         <size>
+          <width>55</width>
+          <height>54</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>55</width>
+          <height>54</height>
+         </size>
+        </property>
         <property name="toolTip">
          <string>left to right</string>
         </property>
@@ -212,9 +236,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normalon>:/icons/libs/icons/2rightarrow.png</normalon>
-         </iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/2rightarrow</normaloff>:/icons/2rightarrow</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -233,9 +256,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normalon>:/icons/libs/icons/2leftarrow.png</normalon>
-         </iconset>
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/2leftarrow</normaloff>:/icons/2leftarrow</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -334,7 +356,6 @@
          <font>
           <family>Arial</family>
           <pointsize>10</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
           <stylestrategy>PreferDefault</stylestrategy>
          </font>
@@ -353,7 +374,6 @@
          <font>
           <family>Arial</family>
           <pointsize>10</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
           <stylestrategy>PreferDefault</stylestrategy>
          </font>
@@ -376,6 +396,7 @@
         </property>
         <property name="font">
          <font>
+          <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
          </font>
         </property>
@@ -407,8 +428,15 @@
             <height>36</height>
            </size>
           </property>
+          <property name="baseSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="font">
            <font>
+            <family>MS Shell Dlg 2</family>
             <pointsize>10</pointsize>
            </font>
           </property>
@@ -455,6 +483,7 @@
    <widget class="QMenu" name="menuAbout">
     <property name="font">
      <font>
+      <family>MS Shell Dlg 2</family>
       <kerning>false</kerning>
      </font>
     </property>
@@ -503,6 +532,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

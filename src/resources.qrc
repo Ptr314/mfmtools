@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>libs/icons/2leftarrow.png</file>
-        <file>libs/icons/2rightarrow.png</file>
+        <file alias="2leftarrow">libs/icons/2leftarrow.png</file>
+        <file alias="2rightarrow">libs/icons/2rightarrow.png</file>
         <file>libs/icons/5floppy_mount.png</file>
         <file>libs/icons/help.png</file>
         <file>libs/icons/cache.png</file>

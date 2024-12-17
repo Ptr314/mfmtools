@@ -56,8 +56,13 @@ void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     }
     else if ( index.data(Qt::AccessibleDescriptionRole).toString() == QLatin1String( "child" ) ) {
         QStyleOptionViewItem childOption = option;
-        // int indent = option.fontMetrics.width( QString( 4, QChar( ' ' ) ) );
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 11, 0)
+        int indent = option.fontMetrics.width( QString( 4, QChar( ' ' ) ) );
+#else
         int indent = option.fontMetrics.horizontalAdvance(QString( 4, QChar( ' ' ) ));
+#endif
+
         childOption.rect.adjust( indent, 0, 0, 0 );
         childOption.textElideMode = Qt::ElideNone;
         QItemDelegate::paint( painter, childOption, index );

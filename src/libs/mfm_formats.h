@@ -37,7 +37,7 @@
 #ifndef MFM_FORMATS_H
 #define MFM_FORMATS_H
 
-#pragma pack(1)
+#pragma pack(push, 1)
 
 typedef struct HXC_MFM_HEADER_
 {
@@ -60,6 +60,8 @@ typedef struct HXC_MFM_TRACK_INFO_
     uint32_t mfmtracksize;          // MFM/FM Track size in bytes
     uint32_t mfmtrackoffset;        // Offset of the track data from the beginning of the file in number of bytes.
 }HXC_MFM_TRACK_INFO;
+
+#pragma pack(pop)
 
 static uint16_t MFM_tab[]=
 {

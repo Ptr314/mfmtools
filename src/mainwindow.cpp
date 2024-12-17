@@ -41,6 +41,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QActionGroup>
+#include <QSysInfo>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -630,7 +631,12 @@ void MainWindow::on_actionAbout_triggered()
     aboutUi.setupUi(about);
 
     aboutUi.info_label->setText(
-        aboutUi.info_label->text().replace("{$PROJECT_VERSION}", PROJECT_VERSION)
+        aboutUi.info_label->text()
+            .replace("{$PROJECT_VERSION}", PROJECT_VERSION)
+            .replace("{$BUILD_ARCHITECTURE}", QSysInfo::buildCpuArchitecture())
+            .replace("{$OS}", QSysInfo::productType())
+            .replace("{$OS_VERSION}", QSysInfo::productVersion())
+            .replace("{$CPU_ARCHITECTURE}", QSysInfo::currentCpuArchitecture())
         );
 
     about->exec();

@@ -23,10 +23,10 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Orientation::Horizontal</enum>
+    <enum>Qt::Horizontal</enum>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::StandardButton::Ok</set>
+    <set>QDialogButtonBox::Ok</set>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -42,7 +42,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/.qt/rcc/resources.qrc">:/icons/libs/icons/Emuverse3.png</pixmap>
+    <pixmap resource="resources.qrc">:/icons/libs/icons/Emuverse3.png</pixmap>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -113,7 +113,7 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Orientation::Horizontal</enum>
+    <enum>Qt::Horizontal</enum>
    </property>
   </widget>
   <widget class="QLabel" name="info_label">
@@ -126,17 +126,10 @@
     </rect>
    </property>
    <property name="text">
-    <string notr="true">&lt;html&gt;&lt;head/&gt;
-&lt;body&gt;
-&lt;p&gt;Version {$PROJECT_VERSION}&lt;br/&gt;&lt;a href=&quot;https://github.com/Ptr314/mfmtools&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Ptr314/mfmtools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Создан в рамках поддержки&lt;br/&gt;
-&lt;a href=&quot;https://emuverse.ru&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://emuverse.ru&lt;/span&gt;&lt;/a&gt;
-&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;</string>
+    <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:700;&quot;&gt;{$PROJECT_VERSION}&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;_{$BUILD_ARCHITECTURE} on {$OS} {$OS_VERSION}_{$CPU_ARCHITECTURE}&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;&lt;a href=&quot;https://github.com/Ptr314/mfmtools&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/Ptr314/mfmtools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://emuverse.ru&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://emuverse.ru&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
@@ -147,7 +140,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/.qt/rcc/resources.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections>
   <connection>

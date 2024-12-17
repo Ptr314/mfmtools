@@ -42,7 +42,7 @@
 #include <QApplication>
 
 #include "loader_td0.h"
-#include "libs/crc16.h"
+#include "crc16.h"
 #include "lzss.h"
 
 LoaderTD0::LoaderTD0(QJsonObject format, QString FileName)
@@ -103,7 +103,7 @@ uint8_t LoaderTD0::load(bool check_only, bool ignore_warnings, QString *log)
         log->append(QString(qApp->translate("TD0", "Density:\t%1")+"\r\n").arg(QString::number(main_header.density)));
         log->append(QString(qApp->translate("TD0", "Type:\t%1")+"\r\n").arg(QString::number(main_header.device_type)));
         log->append(QString(qApp->translate("TD0", "Flags:\t$%1")+"\r\n").arg(QString::number(main_header.flags, 16)));
-        if (main_header.flags and 0x80)
+        if (main_header.flags & 0x80)
             log->append(QString(qApp->translate("TD0", "\tComment presents ($80)")+"\r\n"));
         log->append(QString(qApp->translate("TD0", "DOS:\t%1")+"\r\n").arg(QString::number(main_header.dos)));
         log->append(QString(qApp->translate("TD0", "Heads:\t%1")+"\r\n").arg(QString::number(main_header.heads)));
@@ -126,7 +126,7 @@ uint8_t LoaderTD0::load(bool check_only, bool ignore_warnings, QString *log)
             log->append(QString(qApp->translate("TD0", "Decompressed file size: %1 bytes")+"\r\n").arg(QString::number(file_data_size)));
         }
         //Comment
-        if (main_header.flags and 0x80) {
+        if (main_header.flags & 0x80) {
             memcpy(&comment_header, &file_data[file_data_ptr], sizeof(comment_header));
             file_data_ptr+=sizeof(comment_header);
             log->append("\r\n"+qApp->translate("TD0", ">>>COMMENT<<<")+"\r\n");
