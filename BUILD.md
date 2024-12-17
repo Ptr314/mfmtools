@@ -33,13 +33,27 @@ cd папка-с-CMakeLists.txt-проекта
 
 #### 2.2. Компиляция статической версии Qt
 
-##### Qt6
+##### Qt6 (актуальная версия)
 
-См. [здесь](https://github.com/Ptr314/ecat3/blob/master/BUILD.md).
+https://doc.qt.io/qt-6/windows-building.html
+
+* Отредактировать `.build/vars-mingw-latest.cmd` на действительные пути.
+* Открыть командную строку и скомпилировать Qt:
+
+```
+cd репозиторий-приложения\.build
+%SystemRoot%\system32\cmd.exe /E:ON /V:ON /k vars-mingw-latest.cmd
+cd C:\Temp
+mkdir qt-build
+cd qt-build
+configure.bat -static -static-runtime -release  -opensource -confirm-license -nomake examples -nomake tests -prefix c:\DEV\Qt\%_QT_VERSION%-static
+cmake --build . --parallel
+cmake --install .
+```
 
 ##### Qt5 для Windows XP
 
-Для XP необходима версия 5.6.3 и mingw 4.9.2 (https://download.qt.io/new_archive/qt/5.6/5.6.3/single/)
+Для XP необходима версия Qt 5.6.3 и mingw 4.9.2 (https://download.qt.io/new_archive/qt/5.6/5.6.3/single/)
 
 ~~~
 cd репозиторий-приложения\.build
@@ -61,7 +75,7 @@ mingw32-make install
 
 ##### Qt5 для Windows 7
 
-Для Windows 7 необходима версия 5.15 и mingw 8.1.0 (https://download.qt.io/archive/qt/5.15/5.15.16/single/)
+Для Windows 7 необходима версия Qt 5.15 и mingw 8.1.0 (https://download.qt.io/archive/qt/5.15/5.15.16/single/)
 
 ~~~
 cd репозиторий-приложения\.build
