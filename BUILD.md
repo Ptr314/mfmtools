@@ -22,16 +22,7 @@
 #### 2. Настроить debug-версию в Qt Creator
 * Если нужна полная очистка, удалить файлы __CMakeLists.txt.user*__.
 
-#### 2.1. Обновление языковых файлов
-~~~
-cd папка-с-CMakeLists.txt-проекта
-\путь-к-программе\cmake.exe --build build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug --target update_translations
-~~~
-* Путь после __--build__ должен указывать на build-директорию, установленную в конфигурации проекта.
-* Команду надо выполнять на той же платформе, где происходил препроцессинг CMakeLists.txt.
-* Далее файлы .ts редактируются с помощью Linguist из Qt Creator.
-
-#### 2.2. Компиляция статической версии Qt
+#### 3. Компиляция статической версии Qt
 
 ##### Qt6 (актуальная версия)
 
@@ -92,7 +83,16 @@ mingw32-make install
 * -no-opengl используется для исключения установки OpenGL SDK.
 * -skip qtlocation исключает непонятную ошибку компиляции в этом модуле
 
-#### 3. Сборка release-версии
+#### 4. Обновление языковых файлов
+~~~
+cd папка-с-CMakeLists.txt-проекта
+\путь-к-программе\cmake.exe --build build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug --target update_translations
+~~~
+* Путь после __--build__ должен указывать на build-директорию, установленную в конфигурации проекта.
+* Команду надо выполнять на той же платформе, где происходил препроцессинг CMakeLists.txt.
+* Далее файлы .ts редактируются с помощью Linguist из Qt Creator.
+
+#### 5. Сборка release-версии
 * Проверить, что в Qt Creator/Kits/Compilers есть компилятор, который использовался для сборки Qt.
 * Добавить собранную версию Qt в Qt Creator/Kits/Versions и Qt Creator/Kits/Kits. Версия компилятора должна соответствовать версии, с которой происходила сборка Qt.
 * Обновить версию приложения в CMakeLists.txt, пересканировать проект (Rescan project), чтобы версия прописалась в заголовочные файлы.
@@ -110,23 +110,36 @@ mingw32-make install
 
 https://doc.qt.io/qt-6/macos.html
 
-Далее описывается установка окружения из offline-инсталляторов, так как сетевая установка под виртуальными машинами работала некорректно.
+Далее описывается установка окружения из offline-инсталляторов, так как сетевая установка под виртуальными машинами работала нестабильно.
 
-1. Установить xcode. Дистрибутив взять здесь: https://xcodereleases.com, нужен аккаунт на Apple Developer.
-    * Скопировать файл .xip в папку Applications и там распаковать. Файл .xip удалить
-    * Выполнить команду `sudo xcode-select --switch /Applications/Xcode.app`
-2. Установить HomeBrew: https://brew.sh/
-3. Установить cmake, ninja, принять лицензию xcode:
+### 1. Установить xcode
+
+Дистрибутив взять здесь: https://xcodereleases.com, нужен аккаунт на Apple Developer.
+
+* Скопировать файл `.xip` в папку `/Applications` и там распаковать. Файл `.xip` удалить
+* Выполнить команду `sudo xcode-select --switch /Applications/Xcode.app`
+
+### 2. Установить HomeBrew
+
+https://brew.sh/
+
+### 3. Установить утилиты
+
+cmake, ninja, принять лицензию xcode:
+
 ```
 brew install cmake
 brew install ninja
 sudo xcodebuild -license
 ```
-4. С https://download.qt.io/official_releases/qtcreator/latest/: скачать Qt Creator Offline Installer и с https://download.qt.io/official_releases/qt/ Qt Sources (qt-everywhere-src-X.X.X.tar.xz)
-    * Установить Qt Creator обычным образом.
-    * qt-everywhere-src-X.X.X.tar.xz поместить в ~/Downloads
 
-5. Собрать Qt
+### 4. Установить Qt
+
+С https://download.qt.io/official_releases/qtcreator/latest/ скачать Qt Creator Offline Installer и с https://download.qt.io/official_releases/qt/ Qt Sources (qt-everywhere-src-X.X.X.tar.xz)
+* Установить Qt Creator обычным образом (открыть файл `.dmg`, перетащить иконку в `/Applications`).
+* qt-everywhere-src-X.X.X.tar.xz поместить в ~/Downloads
+
+### 5. Собрать статическую версию Qt
 
 https://doc.qt.io/qt-6/macos-building.html
 
@@ -140,6 +153,8 @@ cmake --build . --parallel
 sudo cmake --install .
 ```
 
-После перезагрузки системы /tmp очищается, поэтому для повторного запуска надо распаковывать исходники заново.
+После перезагрузки системы `/tmp` очищается, поэтому для повторного запуска надо распаковывать исходники заново.
 
-6. Добавить Kit в Qt Creator из папки /usr/local/Qt-X.X.X-static (включить отображение скрытых папок при необходимости). 
+### 6. Добавить Kit в Qt Creator 
+
+Из папки `/usr/local/Qt-X.X.X-static` (включить отображение скрытых папок при необходимости). 
