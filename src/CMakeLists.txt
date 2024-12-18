@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21.1)
 
 project(MFMTools VERSION 1.0.0 LANGUAGES C CXX)
 
@@ -56,6 +56,8 @@ set(TRANSLATION_FILES
     translations/app_ru.ts
 )
 
+set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "languages")
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
         MANUAL_FINALIZATION
@@ -70,7 +72,22 @@ else()
         ${PROJECT_SOURCES}
         ${PROJECT_RESOURCES}
     )
-    qt5_add_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TRANSLATION_FILES})
+    qt5_add_translation(QM_FILES ${TRANSLATION_FILES})
+
+    find_program(LUPDATE_EXECUTABLE lupdate)
+    find_program(LRELEASE_EXECUTABLE lrelease)
+
+    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/languages/)
+
+    foreach(_ts_file ${TRANSLATION_FILES})
+
+        # execute_process(
+        #     COMMAND ${LUPDATE_EXECUTABLE} -recursive ${CMAKE_SOURCE_DIR} -ts ${_ts_file})
+        get_filename_component(_qt_id ${_ts_file} NAME_WE)
+        execute_process(
+            COMMAND ${LRELEASE_EXECUTABLE} "${CMAKE_SOURCE_DIR}/${_ts_file}" -qm ${CMAKE_CURRENT_BINARY_DIR}/languages/${_qt_id}.qm )
+
+    endforeach()
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
@@ -91,13 +108,6 @@ if((QT_VERSION_MAJOR GREATER 5))
     find_package(Qt6 REQUIRED COMPONENTS Core5Compat)
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core5Compat)
 endif()
-
-install(TARGETS ${PROJECT_NAME}
-    BUNDLE DESTINATION .
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "languages")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     configure_file(../deploy/config.json MFMTools.app/Contents/MacOS/config.json COPYONLY)
