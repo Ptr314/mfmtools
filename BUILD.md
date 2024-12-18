@@ -101,8 +101,8 @@ mingw32-make install
 * Собрать архив:
     * Файл exe;
     * Директорию build/XXX/languages с файлами .qm.
-    * Содержимое директории deploy (значки языков, файлы конфигурации, лицензию и пр.)
-    * Файлы `libgcc_s_seh-1.dll` (для Qt6) или `libgcc_s_dw2-1.dll` (для Qt5), `libstdc++-6.dll`, `libwinpthread-1.dll` из Qt/bin
+    * Содержимое директории deploy (значки языков, файлы конфигурации, лицензию и пр.).
+    * Файлы runtime-библиотеки для нестатических сборок.
 * Загрузить как релиз на GitHub, добавив последнему коммиту тег с номером версии.
 
 
@@ -132,12 +132,14 @@ https://doc.qt.io/qt-6/macos-building.html
 
 ```
 cd /tmp
-tar xf ~/Downloads/qt-everywhere-src-X.X.X.tar.xz
+tar xf ~/Downloads/qt-everywhere-src-6.8.1.tar.xz
 mkdir -p ~/dev/qt-build
 cd ~/dev/qt-build
-/tmp/qt-everywhere-src-X.X.X/configure -static -release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -Wno-dev -prefix /usr/local/Qt-X.X.X-static
+/tmp/qt-everywhere-src-6.8.1/configure -static -static-runtime -release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -make libs -prefix /usr/local/Qt-6.8.1-static
 cmake --build . --parallel
 sudo cmake --install .
 ```
+
+После перезагрузки системы /tmp очищается, поэтому для повторного запуска надо распаковывать исходники заново.
 
 6. Добавить Kit в Qt Creator из папки /usr/local/Qt-X.X.X-static (включить отображение скрытых папок при необходимости). 

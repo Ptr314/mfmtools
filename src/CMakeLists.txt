@@ -99,10 +99,18 @@ install(TARGETS ${PROJECT_NAME}
 
 set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "languages")
 
-configure_file(../deploy/config.json config.json COPYONLY)
-configure_file(../deploy/mfmtools.ini mfmtools.ini COPYONLY)
-configure_file(../deploy/languages/ru.png languages/ru.png COPYONLY)
-configure_file(../deploy/languages/en.png languages/en.png COPYONLY)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    configure_file(../deploy/config.json MFMTools.app/Contents/MacOS/config.json COPYONLY)
+    configure_file(../deploy/mfmtools.ini MFMTools.app/Contents/MacOS/mfmtools.ini COPYONLY)
+    configure_file(../deploy/languages/ru.png MFMTools.app/Contents/MacOS/languages/ru.png COPYONLY)
+    configure_file(../deploy/languages/en.png MFMTools.app/Contents/MacOS/languages/en.png COPYONLY)
+
+else()
+    configure_file(../deploy/config.json config.json COPYONLY)
+    configure_file(../deploy/mfmtools.ini mfmtools.ini COPYONLY)
+    configure_file(../deploy/languages/ru.png languages/ru.png COPYONLY)
+    configure_file(../deploy/languages/en.png languages/en.png COPYONLY)
+endif()
 
 include(GNUInstallDirs)
 
