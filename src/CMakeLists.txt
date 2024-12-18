@@ -56,8 +56,6 @@ set(TRANSLATION_FILES
     translations/app_ru.ts
 )
 
-set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "languages")
-
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
         MANUAL_FINALIZATION
@@ -110,12 +108,14 @@ if((QT_VERSION_MAJOR GREATER 5))
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "MFMTools.app/Contents/MacOS/languages")
     configure_file(../deploy/config.json MFMTools.app/Contents/MacOS/config.json COPYONLY)
     configure_file(../deploy/mfmtools.ini MFMTools.app/Contents/MacOS/mfmtools.ini COPYONLY)
     configure_file(../deploy/languages/ru.png MFMTools.app/Contents/MacOS/languages/ru.png COPYONLY)
     configure_file(../deploy/languages/en.png MFMTools.app/Contents/MacOS/languages/en.png COPYONLY)
 
 else()
+    set_source_files_properties(${TRANSLATION_FILES} PROPERTIES OUTPUT_LOCATION "languages")
     configure_file(../deploy/config.json config.json COPYONLY)
     configure_file(../deploy/mfmtools.ini mfmtools.ini COPYONLY)
     configure_file(../deploy/languages/ru.png languages/ru.png COPYONLY)
