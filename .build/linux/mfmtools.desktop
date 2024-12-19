@@ -1,0 +1,6 @@
+[Desktop]
+Type=Application
+Name=MFM Tools
+Exec=/usr/bin/mfmtools
+Icon=mfmtools
+Categories=Utility;

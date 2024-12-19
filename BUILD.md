@@ -37,7 +37,7 @@ cd репозиторий-приложения\.build
 cd C:\Temp
 mkdir qt-build
 cd qt-build
-configure.bat -static -static-runtime -release  -opensource -confirm-license -nomake examples -nomake tests -prefix c:\DEV\Qt\%_QT_VERSION%-static
+configure.bat -static -static-runtime -release -opensource -confirm-license -nomake examples -nomake tests -prefix c:\DEV\Qt\%_QT_VERSION%-static
 cmake --build . --parallel
 cmake --install .
 ```
@@ -157,4 +157,35 @@ sudo cmake --install .
 
 ### 6. Добавить Kit в Qt Creator 
 
-Из папки `/usr/local/Qt-X.X.X-static` (включить отображение скрытых папок при необходимости). 
+Из папки `/usr/local/Qt-X.X.X-static` (включить отображение скрытых папок при необходимости).
+
+## Ubuntu 24.04
+
+#### 1. Установить программы
+* https://download.qt.io/, скачать online-инсталлятор (возможно, из России понадобится зарубежный VPN) и установить следующие компоненты:
+    * Qt [X.X.X]
+        * Desktop
+        * Sources 
+    * Qt Developer and Designer tools
+        * Qt Creator
+        * cmake
+        * ninja
+
+Добавить пути ~/Qt/Tools/Cmake/bin и ~/Qt/Tools/Ninja в PATH  (~/.profile).
+
+#### 2. Настроить debug-версию в Qt Creator
+* Если нужна полная очистка, удалить файлы __CMakeLists.txt.user*__.
+
+#### 3. Компиляция статической версии Qt
+
+https://doc.qt.io/qt-6/linux-building.html
+
+```
+mkdir -p ~/dev/qt-build
+cd ~/dev/qt-build
+~/Qt/6.8.1/src/configure -static -static-runtime -release -opensource -confirm-license -nomake examples -nomake tests -prefix ~/Qt/6.8.1-static
+cmake --build . --parallel
+cmake --install .
+```
+
+Если configure жалуется на отсутствие clang, выполнить `sudo apt install libclang-18-dev`
