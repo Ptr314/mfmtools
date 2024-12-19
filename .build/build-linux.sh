@@ -2,7 +2,7 @@
 
 ARCHITECTURE="x86_64"
 PLATFORM="linux"
-QT_PATH="~/Qt/6.8.1-static"
+QT_PATH="~/Qt/6.8.1/gcc_64"
 BUILD_DIR="./build/${PLATFORM}_${ARCHITECTURE}"
 RELEASE_DIR="./release/linux"
 
