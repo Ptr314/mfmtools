@@ -159,7 +159,7 @@ sudo cmake --install .
 
 Из папки `/usr/local/Qt-X.X.X-static` (включить отображение скрытых папок при необходимости).
 
-## Ubuntu 24.04
+## Ubuntu 20.04
 
 #### 1. Установить программы
 * https://download.qt.io/, скачать online-инсталлятор (возможно, из России понадобится зарубежный VPN) и установить следующие компоненты:
@@ -170,6 +170,7 @@ sudo cmake --install .
         * Qt Creator
         * cmake
         * ninja
+* Компилятор `sudo apt install g++`
 
 Добавить пути ~/Qt/Tools/Cmake/bin и ~/Qt/Tools/Ninja в PATH  (~/.profile).
 
@@ -177,6 +178,8 @@ sudo cmake --install .
 * Если нужна полная очистка, удалить файлы __CMakeLists.txt.user*__.
 
 #### 3. Компиляция статической версии Qt
+
+Фактически, разумнее использовать linuxdeployqt и динамическую компоновку. Это должно обеспечить лучшую совместимость с разными дистрибутивами Linux.
 
 https://doc.qt.io/qt-6/linux-building.html
 
