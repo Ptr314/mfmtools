@@ -171,8 +171,18 @@ sudo cmake --install .
         * cmake
         * ninja
 * Компилятор `sudo apt install g++`
+* linuxdeployqt: https://github.com/probonopd/linuxdeployqt/releases
 
-Добавить пути ~/Qt/Tools/Cmake/bin и ~/Qt/Tools/Ninja в PATH  (~/.profile).
+Добавить в ~/.profile:
+```
+PATH="~/Qt/Tools/Cmake/bin:~/Qt/Tools/Ninja:${PATH}"
+```
+
+Если cmake выводит ошибку вида `Qt6Gui could not be found because dependency WrapOpenGL could not be found.`, поставить библиотеку:
+
+```
+sudo apt install libgl1-mesa-dev
+```
 
 #### 2. Настроить debug-версию в Qt Creator
 * Если нужна полная очистка, удалить файлы __CMakeLists.txt.user*__.

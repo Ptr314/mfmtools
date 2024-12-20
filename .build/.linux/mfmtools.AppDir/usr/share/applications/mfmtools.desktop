@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=MFM Tools
+Exec=MFMTools
+Icon=5floppy_mount
+Categories=Utility;
+X-AppImage-Version=1.0.0
