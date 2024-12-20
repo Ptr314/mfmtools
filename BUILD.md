@@ -1,21 +1,33 @@
 # Настройка окружения и компиляция приложения
 
-Программа написана как проект cmake с использованием библиотеки Qt6. Далее описан процесс настройки окружения и компиляции под Qt Creator и mingw.
+Программа написана как проект cmake с использованием библиотеки Qt6. Ниже описывается установка окружения под разные ОС и компиляция приложения.
 
-Версии под другие ОС и MSVC пока в планах.
+В данный момент программа компилируется под следующие платформы:
 
+* Windows XP и 7
+    * Версия i386 на основе Qt 5.6.3 и mingw 4.9.2.
+* Windows 10+
+    * Версия х86_64. Актуальная версия Qt 6.8.1 и mingw 13.10
+* macOS 15 (возможна совместимость с более ранними версиями)
+    * Версия х86_64. Qt 6.8.1, xcode 16
+* Linux Ubuntu 20.04+
+    * Версия х86_64. Qt 6.8.1, gcc 9.4.0
+
+Версия х86_64 для Windows использует статическую компоновку. 
+
+---
 ## Windows
-
-### MINGW
 
 #### 1. Установить программы
 * https://download.qt.io/, скачать online-инсталлятор (возможно, из России понадобится зарубежный VPN) и установить следующие компоненты:
     * Qt [X.X.X]
         * MinGW YY.Y.Y
         * Sources (Если не нужна компиляция статической версии для релиза, можно пропустить)
-    * Qt Developer and Designer tools
+        * Plugins
+            * Qt5Compatibility 
         * Qt Creator
         * Mingw YY.Y.Y (Версия, соответствующая компилятору библиотеки в предыдущем пункте)
+        * Mingw 4.9.2 (Версия для сборки i386 для Windows XP)
         * cmake
         * ninja
 
@@ -84,10 +96,12 @@ mingw32-make install
 * -skip qtlocation исключает непонятную ошибку компиляции в этом модуле
 
 #### 4. Обновление языковых файлов
+
 ~~~
 cd папка-с-CMakeLists.txt-проекта
 \путь-к-программе\cmake.exe --build build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug --target update_translations
 ~~~
+
 * Путь после __--build__ должен указывать на build-директорию, установленную в конфигурации проекта.
 * Команду надо выполнять на той же платформе, где происходил препроцессинг CMakeLists.txt.
 * Далее файлы .ts редактируются с помощью Linguist из Qt Creator.
@@ -98,14 +112,14 @@ cd папка-с-CMakeLists.txt-проекта
 * Обновить версию приложения в CMakeLists.txt, пересканировать проект (Rescan project), чтобы версия прописалась в заголовочные файлы.
 * Закоммитить изменения.
 * Откомпилировать приложение нужной версией Qt.
-* Собрать архив:
-    * Файл exe;
-    * Директорию build/XXX/languages с файлами .qm.
-    * Содержимое директории deploy (значки языков, файлы конфигурации, лицензию и пр.).
-    * Файлы runtime-библиотеки для нестатических сборок.
+    * актуализировать значения переменных в `/build/vars-mingw-*.cmd`. 
+    * i386: `./build/build-win-i386.bat`.
+    * x86_64: `./build/build-win-latest.bat`.
+* Упаковать директории в `./build/release` в zip.
 * Загрузить как релиз на GitHub, добавив последнему коммиту тег с номером версии.
 
 
+---
 ## macOS
 
 https://doc.qt.io/qt-6/macos.html
@@ -159,21 +173,33 @@ sudo cmake --install .
 
 Из папки `/usr/local/Qt-X.X.X-static` (включить отображение скрытых папок при необходимости).
 
+#### 7. Сборка приложения
+
+Для сборки приложения используется скрипт `.build/build-macos.sh`. Перед первым запуском необходимо актуализировать следующе переменные: QT_PATH.
+
+На выходе должен быть получен файл `.dmg`.
+
+
+---
 ## Ubuntu 20.04
+
+В целях совместимости, для сборки выбирается самая старая версия из текущих на поддержке, на 12.2024 это Ubuntu 20.04. В более новых версиях не запустится linuxdeployqt.
 
 #### 1. Установить программы
 * https://download.qt.io/, скачать online-инсталлятор (возможно, из России понадобится зарубежный VPN) и установить следующие компоненты:
     * Qt [X.X.X]
         * Desktop
         * Sources 
+        * Plugins
+            * Qt5Compatibility 
     * Qt Developer and Designer tools
         * Qt Creator
         * cmake
         * ninja
 * Компилятор `sudo apt install g++`
-* linuxdeployqt: https://github.com/probonopd/linuxdeployqt/releases
+* Скачать linuxdeployqt: https://github.com/probonopd/linuxdeployqt/releases и разместить в `~/Downloads`.
 
-Добавить в ~/.profile:
+Добавить в `~/.profile` пути к cmake и ninja:
 ```
 PATH="~/Qt/Tools/Cmake/bin:~/Qt/Tools/Ninja:${PATH}"
 ```
@@ -184,21 +210,15 @@ PATH="~/Qt/Tools/Cmake/bin:~/Qt/Tools/Ninja:${PATH}"
 sudo apt install libgl1-mesa-dev
 ```
 
-#### 2. Настроить debug-версию в Qt Creator
+#### 2. Настроить Kit в Qt Creator
 * Если нужна полная очистка, удалить файлы __CMakeLists.txt.user*__.
 
-#### 3. Компиляция статической версии Qt
+#### 3. Сборка приложения
 
-Фактически, разумнее использовать linuxdeployqt и динамическую компоновку. Это должно обеспечить лучшую совместимость с разными дистрибутивами Linux.
+Для сборки приложения используется скрипт `.build/build-linux.sh`. Перед первым запуском необходимо актуализировать следующе переменные: QT_PATH и LINUXDEPLOYQT.
 
-https://doc.qt.io/qt-6/linux-building.html
+cmake и ninja должны быть в PATH (см. п. 1).
 
-```
-mkdir -p ~/dev/qt-build
-cd ~/dev/qt-build
-~/Qt/6.8.1/src/configure -static -static-runtime -release -opensource -confirm-license -nomake examples -nomake tests -prefix ~/Qt/6.8.1-static
-cmake --build . --parallel
-cmake --install .
-```
+На выходе должен быть получен файл `.AppImage`.
 
-Если configure жалуется на отсутствие clang, выполнить `sudo apt install libclang-18-dev`
+
