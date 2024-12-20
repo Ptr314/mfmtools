@@ -11,7 +11,7 @@ FOR /F "tokens=* USEBACKQ" %%g IN (`findstr "PROJECT_VERSION" ..\src\globals.h`)
 for /f "tokens=3" %%G IN ("%VER%") DO (SET V=%%G)
 set _VERSION=%V:"=%
 
-SET _RELEASE_DIR=".\release\mfmtools_%_VERSION%_%_PLATFORM%_%_ARCHITECTURE%"
+SET _RELEASE_DIR=".\release\mfmtools-%_VERSION%-%_PLATFORM%-%_ARCHITECTURE%"
 
 if not exist %_BUILD_DIR%\ (
     call "%_ROOT_QT%\%_QT_VERSION%-static\bin\qt-cmake" -S ../src -B "%_BUILD_DIR%" -G Ninja
