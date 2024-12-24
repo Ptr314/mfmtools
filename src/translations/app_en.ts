@@ -17,65 +17,65 @@
 <context>
     <name>Converter</name>
     <message>
-        <location filename="../mainwindow.cpp" line="507"/>
-        <location filename="../mainwindow.cpp" line="565"/>
-        <location filename="../mainwindow.cpp" line="574"/>
-        <location filename="../mainwindow.cpp" line="595"/>
-        <location filename="../mainwindow.cpp" line="605"/>
-        <location filename="../mainwindow.cpp" line="620"/>
+        <location filename="../mainwindow.cpp" line="525"/>
+        <location filename="../mainwindow.cpp" line="583"/>
+        <location filename="../mainwindow.cpp" line="592"/>
+        <location filename="../mainwindow.cpp" line="613"/>
+        <location filename="../mainwindow.cpp" line="623"/>
+        <location filename="../mainwindow.cpp" line="638"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="507"/>
-        <location filename="../mainwindow.cpp" line="595"/>
+        <location filename="../mainwindow.cpp" line="525"/>
+        <location filename="../mainwindow.cpp" line="613"/>
         <source>Error reading input file</source>
         <translation>Error reading input file</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="524"/>
-        <location filename="../mainwindow.cpp" line="530"/>
+        <location filename="../mainwindow.cpp" line="542"/>
+        <location filename="../mainwindow.cpp" line="548"/>
         <source>Warning</source>
         <translation>Warning</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="556"/>
+        <location filename="../mainwindow.cpp" line="574"/>
         <source>Warning: File size is too small.</source>
         <translation>Warning: File is too small for the selected parameters.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="525"/>
+        <location filename="../mainwindow.cpp" line="543"/>
         <source>%1: File size is too small. Ignore?</source>
         <translation>%1: File size is smaller than expected. If you continue missing data will be filled by zeroes. Continue?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="531"/>
+        <location filename="../mainwindow.cpp" line="549"/>
         <source>%1: File size is too large. Ignore?</source>
         <translation>%1: File size is bigger than expected. If you continue part of its data may be lost. Continue?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="558"/>
+        <location filename="../mainwindow.cpp" line="576"/>
         <source>Warning: File size is too large.</source>
         <translation>Warning: File is too large for selected parameters.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="565"/>
-        <location filename="../mainwindow.cpp" line="567"/>
+        <location filename="../mainwindow.cpp" line="583"/>
+        <location filename="../mainwindow.cpp" line="585"/>
         <source>File parameters mismatch</source>
         <translation>Selected parameters don&apos;t fit corresponding ones in the file</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="574"/>
+        <location filename="../mainwindow.cpp" line="592"/>
         <source>File is corrupt</source>
         <translation>File is corrupt or wrong format selected</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="605"/>
+        <location filename="../mainwindow.cpp" line="623"/>
         <source>Error writing output file</source>
         <translation>Can&apos;t write output file</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="620"/>
+        <location filename="../mainwindow.cpp" line="638"/>
         <source>Source and destination are not selected</source>
         <translation>Source file or destination folder are not selected</translation>
     </message>
@@ -165,9 +165,9 @@
     <name>Main</name>
     <message>
         <location filename="../diskparamsdlg.cpp" line="109"/>
-        <location filename="../mainwindow.cpp" line="644"/>
-        <location filename="../mainwindow.cpp" line="652"/>
-        <location filename="../mainwindow.cpp" line="676"/>
+        <location filename="../mainwindow.cpp" line="667"/>
+        <location filename="../mainwindow.cpp" line="675"/>
+        <location filename="../mainwindow.cpp" line="699"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -177,17 +177,17 @@
         <translation>Unknown track modulation type</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="644"/>
+        <location filename="../mainwindow.cpp" line="667"/>
         <source>Error reading config file</source>
         <translation>Configuration file  (config.json) not found</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="652"/>
+        <location filename="../mainwindow.cpp" line="675"/>
         <source>Config parse error: %1</source>
         <translation>Config.json parsing error: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="676"/>
+        <location filename="../mainwindow.cpp" line="699"/>
         <source>Error converting config HEX value</source>
         <translation>Error converting config HEX value</translation>
     </message>
@@ -200,65 +200,70 @@
         <translation>MFM Tools</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="48"/>
-        <location filename="../mainwindow.ui" line="343"/>
+        <location filename="../mainwindow.ui" line="47"/>
+        <location filename="../mainwindow.ui" line="364"/>
         <source>Select a directory</source>
         <translation>Select a directory</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="68"/>
-        <location filename="../mainwindow.ui" line="362"/>
+        <location filename="../mainwindow.ui" line="66"/>
+        <location filename="../mainwindow.ui" line="382"/>
         <source>Files</source>
         <translation>Files</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="112"/>
+        <location filename="../mainwindow.ui" line="111"/>
         <source>Disk format</source>
         <translation>Disk format</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="163"/>
+        <location filename="../mainwindow.ui" line="175"/>
         <source>Detect</source>
         <translation>File analysis</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="142"/>
+        <location filename="../mainwindow.ui" line="154"/>
         <source>Format info</source>
         <translation>Disk format information</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="209"/>
+        <location filename="../mainwindow.ui" line="233"/>
         <source>left to right</source>
         <translation>Open the same directory on the right panel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="230"/>
+        <location filename="../mainwindow.ui" line="253"/>
         <source>right to left</source>
         <translation>Open the same directory on the left panel</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="277"/>
+        <location filename="../mainwindow.ui" line="299"/>
         <source>Convert</source>
         <translation>Start process</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="393"/>
+        <location filename="../mainwindow.ui" line="414"/>
         <source>MFM Track type</source>
         <translation>Track type</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="452"/>
+        <location filename="../mainwindow.ui" line="480"/>
         <source>Language</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="462"/>
-        <location filename="../mainwindow.ui" line="501"/>
+        <location filename="../mainwindow.ui" line="491"/>
+        <location filename="../mainwindow.ui" line="530"/>
         <source>About</source>
         <translation>About</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="426"/>
+        <location filename="../mainwindow.cpp" line="415"/>
+        <source>Not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="444"/>
         <source>Custom disk type</source>
         <translation>Custom</translation>
     </message>

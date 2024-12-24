@@ -219,12 +219,12 @@ void MainWindow::init_dropdowns(void)
     ui->rightFilesFilter->setCurrentIndex(settings->value("folders/right_file_filter", 0).toInt());
     on_rightFilesFilter_activated(ui->rightFilesFilter->currentIndex());
 
-    ui->rightFormatCombo->clear();
-    foreach (const QJsonValue & value, fdd_track_descriptions) {
-        QJsonObject obj = value.toObject();
-        ui->rightFormatCombo->addItem(obj["name"].toString());
-    }
-    ui->rightFormatCombo->setCurrentIndex(settings->value("formats/right_format_combo", 0).toInt());
+    // ui->rightFormatCombo->clear();
+    // foreach (const QJsonValue & value, fdd_track_descriptions) {
+    //     QJsonObject obj = value.toObject();
+    //     ui->rightFormatCombo->addItem(obj["name"].toString());
+    // }
+    // ui->rightFormatCombo->setCurrentIndex(settings->value("formats/right_format_combo", 0).toInt());
 }
 
 
@@ -394,9 +394,26 @@ void MainWindow::on_rightFilesFilter_activated(int index)
     QStringList filter = ui->rightFilesFilter->itemData(index).toString().split(";");
     rightFilesModel->setNameFilters(filter);
     rightFilesModel->setNameFilterDisables(false);
-    bool is_mfm = ui->rightFilesFilter->itemText(index).contains("MFM");
-    ui->rightFormatCombo->setEnabled(is_mfm);
-    ui->rightFormatLabel->setEnabled(is_mfm);
+
+    QJsonObject out_ft = target_formats[ui->rightFilesFilter->currentIndex()].toObject();
+    QString out_ft_id = out_ft["id"].toString();
+    QJsonArray out_track_formats = out_ft["track_formats"].toArray();
+    bool enable_track_format = !out_track_formats.isEmpty();
+    ui->rightFormatCombo->clear();
+    ui->rightFormatCombo->setEnabled(enable_track_format);
+    ui->rightFormatLabel->setEnabled(enable_track_format);
+    if (enable_track_format) {
+        foreach (const QJsonValue & value, fdd_track_descriptions) {
+            QJsonObject obj = value.toObject();
+            QString format_id = obj["id"].toString();
+            if (out_track_formats.contains(QJsonValue(format_id))) {
+                ui->rightFormatCombo->addItem(obj["name"].toString());
+            }
+        }
+        ui->rightFormatCombo->setCurrentIndex(settings->value("formats/right_format_combo", 0).toInt());
+    } else {
+        ui->rightFormatCombo->addItem(tr("Not available"));
+    }
 }
 
 void MainWindow::on_toolButton_2_clicked()

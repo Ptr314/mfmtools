@@ -39,11 +39,11 @@
 
 #include <QJsonArray>
 
-static QJsonArray file_formats;
-static QJsonArray target_formats;
-static QJsonArray fdd_formats;
-static QJsonArray fdd_track_variants;
-static QJsonArray fdd_track_formats;
+static QJsonArray file_formats;             // Виды входных файлов
+static QJsonArray target_formats;           // Виды выходных файлов
+static QJsonArray fdd_formats;              // Форматы дисков (дорожки/сектора/модуляция etc.)
+static QJsonArray fdd_track_variants;       // Варианты компоновки MFM-трека
+static QJsonArray fdd_track_formats;        // Форматы кодирования информации
 static QJsonArray fdd_track_descriptions;
 
 #endif // CONFIG_H

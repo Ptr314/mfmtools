@@ -40,22 +40,32 @@
       {
           "id":                "FILE_UNKNOWN",
           "type_name":         "All files",
-          "type_extensions":   "*.*"
+          "type_extensions":   "*.*",
+          "track_formats": []
       },
       {
           "id":                "FILE_MFM_HFE",
           "type_name":         "MFM / HFE files",
-          "type_extensions":   "*.mfm;*.hfe"
+          "type_extensions":   "*.mfm;*.hfe",
+          "track_formats": ["TRACK_IBM_MFM", "TRACK_DVK_MY", "TRACK_DVK_MX_OLD", "TRACK_DVK_MX_NEW", "TRACK_AGAT_140"]
       },
       {
           "id":                "FILE_MFM_NIC",
-          "type_name":         "MFM / NIC files",
-          "type_extensions":   "*.nic"
+          "type_name":         "NIC files (Agat)",
+          "type_extensions":   "*.nic",
+          "track_formats": ["TRACK_AGAT_140"]
+      },
+      {
+          "id":                "FILE_MFM_NIB",
+          "type_name":         "NIB files (Agat)",
+          "type_extensions":   "*.nib",
+          "track_formats": ["TRACK_AGAT_140"]
       },
       {
           "id":                "FILE_RAW_MSB",
           "type_name":         "RAW image (MSB first)",
-          "type_extensions":   "*.img;*.ima;*.dsk;*.trd;*.odi"
+          "type_extensions":   "*.img;*.ima;*.dsk;*.trd;*.odi",
+          "track_formats": []
       }
   ],
   "fdd_formats": [

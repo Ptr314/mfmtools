@@ -17,65 +17,65 @@
 <context>
     <name>Converter</name>
     <message>
-        <location filename="../mainwindow.cpp" line="507"/>
-        <location filename="../mainwindow.cpp" line="565"/>
-        <location filename="../mainwindow.cpp" line="574"/>
-        <location filename="../mainwindow.cpp" line="595"/>
-        <location filename="../mainwindow.cpp" line="605"/>
-        <location filename="../mainwindow.cpp" line="620"/>
+        <location filename="../mainwindow.cpp" line="525"/>
+        <location filename="../mainwindow.cpp" line="583"/>
+        <location filename="../mainwindow.cpp" line="592"/>
+        <location filename="../mainwindow.cpp" line="613"/>
+        <location filename="../mainwindow.cpp" line="623"/>
+        <location filename="../mainwindow.cpp" line="638"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="507"/>
-        <location filename="../mainwindow.cpp" line="595"/>
+        <location filename="../mainwindow.cpp" line="525"/>
+        <location filename="../mainwindow.cpp" line="613"/>
         <source>Error reading input file</source>
         <translation>Ошибка чтения входного файла</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="524"/>
-        <location filename="../mainwindow.cpp" line="530"/>
+        <location filename="../mainwindow.cpp" line="542"/>
+        <location filename="../mainwindow.cpp" line="548"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="556"/>
+        <location filename="../mainwindow.cpp" line="574"/>
         <source>Warning: File size is too small.</source>
         <translation>Предупреждение: Размер файла меньше необходимого. Недостающие данные будут заполнены пустыми значениями.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="525"/>
+        <location filename="../mainwindow.cpp" line="543"/>
         <source>%1: File size is too small. Ignore?</source>
         <translation>%1: Размер исходного файла меньше требуемого. В случае продолжения недостающие секторы будут заполнены нулевыми значениями. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="531"/>
+        <location filename="../mainwindow.cpp" line="549"/>
         <source>%1: File size is too large. Ignore?</source>
         <translation>%1: Размер исходного файла больше требуемого. В случае продолжения часть данных может быть потеряна. Продолжить?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="558"/>
+        <location filename="../mainwindow.cpp" line="576"/>
         <source>Warning: File size is too large.</source>
         <translation>Предупреждение: Размер файла больше необходимого. Часть данных будет потеряна.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="565"/>
-        <location filename="../mainwindow.cpp" line="567"/>
+        <location filename="../mainwindow.cpp" line="583"/>
+        <location filename="../mainwindow.cpp" line="585"/>
         <source>File parameters mismatch</source>
         <translation>Выбранные параметры не соответствуют указанным в файле</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="574"/>
+        <location filename="../mainwindow.cpp" line="592"/>
         <source>File is corrupt</source>
         <translation>Файл поврежден, либо неправильно выбран его формат</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="605"/>
+        <location filename="../mainwindow.cpp" line="623"/>
         <source>Error writing output file</source>
         <translation>Ошибка записи выходного файла</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="620"/>
+        <location filename="../mainwindow.cpp" line="638"/>
         <source>Source and destination are not selected</source>
         <translation>Не выбраны исходный файл или директория для записи нового образа</translation>
     </message>
@@ -165,9 +165,9 @@
     <name>Main</name>
     <message>
         <location filename="../diskparamsdlg.cpp" line="109"/>
-        <location filename="../mainwindow.cpp" line="644"/>
-        <location filename="../mainwindow.cpp" line="652"/>
-        <location filename="../mainwindow.cpp" line="676"/>
+        <location filename="../mainwindow.cpp" line="667"/>
+        <location filename="../mainwindow.cpp" line="675"/>
+        <location filename="../mainwindow.cpp" line="699"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -177,17 +177,17 @@
         <translation>Неизвестный тип модуляции</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="644"/>
+        <location filename="../mainwindow.cpp" line="667"/>
         <source>Error reading config file</source>
-        <translation type="unfinished">Не найден файл конфигурации (config.json)</translation>
+        <translation>Не найден файл конфигурации (config.json)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="652"/>
+        <location filename="../mainwindow.cpp" line="675"/>
         <source>Config parse error: %1</source>
         <translation>Трассировка файла конфигурации (config.json) закончилась с ошибкой: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="676"/>
+        <location filename="../mainwindow.cpp" line="699"/>
         <source>Error converting config HEX value</source>
         <translation>Ошибка конвертации HEX-значения в файле конфигурации</translation>
     </message>
@@ -200,65 +200,70 @@
         <translation>Утилиты MFM</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="48"/>
-        <location filename="../mainwindow.ui" line="343"/>
+        <location filename="../mainwindow.ui" line="47"/>
+        <location filename="../mainwindow.ui" line="364"/>
         <source>Select a directory</source>
         <translation>Выберите директорию</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="68"/>
-        <location filename="../mainwindow.ui" line="362"/>
+        <location filename="../mainwindow.ui" line="66"/>
+        <location filename="../mainwindow.ui" line="382"/>
         <source>Files</source>
         <translation>Файлы</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="112"/>
+        <location filename="../mainwindow.ui" line="111"/>
         <source>Disk format</source>
         <translation>Формат диска</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="163"/>
+        <location filename="../mainwindow.ui" line="175"/>
         <source>Detect</source>
         <translation>Анализ файлов</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="142"/>
+        <location filename="../mainwindow.ui" line="154"/>
         <source>Format info</source>
         <translation>Информация о формате</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="209"/>
+        <location filename="../mainwindow.ui" line="233"/>
         <source>left to right</source>
         <translation>Открыть справа ту же директорию</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="230"/>
+        <location filename="../mainwindow.ui" line="253"/>
         <source>right to left</source>
         <translation>Открыть слева ту же директорию</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="277"/>
+        <location filename="../mainwindow.ui" line="299"/>
         <source>Convert</source>
         <translation>Начать конвертацию</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="393"/>
+        <location filename="../mainwindow.ui" line="414"/>
         <source>MFM Track type</source>
         <translation>Формат дорожки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="452"/>
+        <location filename="../mainwindow.ui" line="480"/>
         <source>Language</source>
         <translation>Выбор языка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="462"/>
-        <location filename="../mainwindow.ui" line="501"/>
+        <location filename="../mainwindow.ui" line="491"/>
+        <location filename="../mainwindow.ui" line="530"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="426"/>
+        <location filename="../mainwindow.cpp" line="415"/>
+        <source>Not available</source>
+        <translation>Неприменимо</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="444"/>
         <source>Custom disk type</source>
         <translation>Нестандартный</translation>
     </message>
